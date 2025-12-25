@@ -1,0 +1,105 @@
+<!-- src/app/modules/citizen/my-complaints/my-complaints.component.html -->
+<div class="my-complaints-container">
+  <div class="page-header">
+    <h1>My Complaints</h1>
+    <button mat-raised-button color="primary" routerLink="/citizen/submit-grievance">
+      <i class="material-icons">add</i> New Complaint
+    </button>
+  </div>
+
+  <div class="filters">
+    <mat-button-toggle-group
+      [value]="statusFilter"
+      (change)="filterByStatus($event.value)">
+      <mat-button-toggle value="ALL">All</mat-button-toggle>
+      <mat-button-toggle value="PENDING">Pending</mat-button-toggle>
+      <mat-button-toggle value="IN_PROGRESS">In Progress</mat-button-toggle>
+      <mat-button-toggle value="RESOLVED">Resolved</mat-button-toggle>
+      <mat-button-toggle value="REJECTED">Rejected</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading your complaints...</p>
+  </div>
+
+  <div *ngIf="!loading && filteredGrievances.length === 0" class="empty-state">
+    <i class="material-icons large-icon">inbox</i>
+    <h3>No complaints found</h3>
+    <p *ngIf="statusFilter === 'ALL'">
+      You haven't submitted any complaints yet.
+    </p>
+    <p *ngIf="statusFilter !== 'ALL'">
+      No complaints with status "{{ statusFilter }}" found.
+    </p>
+    <button
+      *ngIf="statusFilter === 'ALL'"
+      mat-raised-button
+      color="primary"
+      routerLink="/citizen/submit-grievance">
+      Submit Your First Complaint
+    </button>
+  </div>
+
+  <div *ngIf="!loading && filteredGrievances.length > 0" class="complaints-grid">
+    <mat-card *ngFor="let grievance of filteredGrievances" class="complaint-card">
+
+      <mat-card-header>
+        <mat-card-title>{{ grievance.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="category">{{ grievance.categoryName }}</span>
+          <span class="date">
+            {{ grievance.createdAt | date:'mediumDate' }}
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p class="description">{{ grievance.description }}</p>
+
+        <div class="meta-info">
+          <div class="location">
+            <i class="material-icons">location_on</i>
+            <span>{{ grievance.location }}</span>
+          </div>
+
+          <div class="status-priority">
+            <mat-chip-listbox>
+
+              <mat-chip-option
+                [color]="getStatusColor(grievance.status)"
+                selected>
+                {{ grievance.status | titlecase }}
+              </mat-chip-option>
+
+              <mat-chip-option
+                [color]="getPriorityColor(grievance.priority)"
+                selected>
+                {{ grievance.priority | titlecase }} Priority
+              </mat-chip-option>
+
+            </mat-chip-listbox>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button
+          mat-button
+          color="primary"
+          (click)="viewGrievanceDetails(grievance.id!)">
+          <i class="material-icons">visibility</i> View Details
+        </button>
+
+        <button
+          mat-button
+          color="accent"
+          (click)="trackGrievance(grievance.id!)">
+          <i class="material-icons">track_changes</i> Track
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
+</div>

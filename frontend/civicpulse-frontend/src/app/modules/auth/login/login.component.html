@@ -1,0 +1,59 @@
+<div class="auth-page-wrapper">
+  <div class="brand-box">
+    <h1 class="app-title">CivicPulse</h1>
+    <p class="app-desc">
+      Unified Smart City Feedback & Redressal System
+    </p>
+    <p class="intro-text">
+      Empowering citizens to report issues and provide feedback directly to city officials. Our platform ensures transparency, prompt resolution, and better governance through real-time communication.
+    </p>
+    <div class="feature-icons">
+      <i class="material-icons">gavel</i>
+      <i class="material-icons">campaign</i>
+      <i class="material-icons">manage_accounts</i>
+      <i class="material-icons">lightbulb</i>
+    </div>
+  </div>
+
+  <div class="auth-container">
+    <div class="flag-stripes"></div>
+
+    <h2>Login to CivicPulse</h2>
+
+    <form (ngSubmit)="onSubmit()" #f="ngForm">
+
+      <div class="input-group">
+        <i class="material-icons icon-left">email</i>
+        <input type="email" placeholder="Email Address" [(ngModel)]="loginData.email" name="email" required>
+      </div>
+
+      <div class="input-group">
+        <i class="material-icons icon-left">lock</i>
+        <input type="password" placeholder="Password" [(ngModel)]="loginData.password" name="password" required>
+      </div>
+
+      <div class="input-group">
+        <i class="material-icons icon-left">badge</i>
+        <select [(ngModel)]="loginData.role" name="role" required>
+          <option value="" disabled>Select Role</option>
+          <option value="CITIZEN">Citizen</option>
+          <option value="OFFICER">Officer</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
+      <button type="submit">
+        <i class="material-icons icon-right">login</i>
+        Login
+      </button>
+
+      <p class="redirect">
+        Don't have an account?
+        <a routerLink="/auth/signup">
+          **Register Now**
+        </a>
+      </p>
+
+    </form>
+  </div>
+</div>

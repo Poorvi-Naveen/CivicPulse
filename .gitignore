@@ -1,0 +1,21 @@
+# ===== Backend (Spring Boot) =====
+backend/target/
+backend/*.jar
+backend/.mvn/wrapper/maven-wrapper.jar
+backend/logs/
+backend/**/*.log
+
+# ===== Frontend (Angular) =====
+frontend/**/node_modules/
+frontend/**/.angular/
+frontend/**/dist/
+
+# ===== OS / IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== Env files =====
+.env
+application.properties

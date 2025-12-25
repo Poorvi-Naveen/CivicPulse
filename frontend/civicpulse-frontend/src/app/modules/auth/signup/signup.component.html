@@ -1,0 +1,63 @@
+<div class="auth-page-wrapper">
+  <div class="brand-box">
+    <h1 class="app-title">CivicPulse</h1>
+    <p class="app-desc">
+      Unified Smart City Feedback & Redressal System
+    </p>
+    <p class="intro-text">
+      Join the CivicPulse community today to contribute to better local governance. Your voice drives change in our city's development and service delivery.
+    </p>
+    <div class="feature-icons">
+      <i class="material-icons">person_add</i>
+      <i class="material-icons">rate_review</i>
+      <i class="material-icons">location_city</i>
+      <i class="material-icons">verified_user</i>
+    </div>
+  </div>
+
+  <div class="auth-container">
+    <div class="flag-stripes"></div>
+
+    <h2>Create Your CivicPulse Account</h2>
+
+    <form (ngSubmit)="onSubmit()">
+      
+      <div class="input-group">
+        <i class="material-icons icon-left">person</i>
+        <input type="text" placeholder="Full Name" [(ngModel)]="registerData.name" name="name" required>
+      </div>
+
+      <div class="input-group">
+        <i class="material-icons icon-left">email</i>
+        <input type="email" placeholder="Email Address" [(ngModel)]="registerData.email" name="email" required>
+      </div>
+      
+      <div class="input-group">
+        <i class="material-icons icon-left">lock</i>
+        <input type="password" placeholder="Password" [(ngModel)]="registerData.password" name="password" required>
+      </div>
+
+      <div class="input-group">
+        <i class="material-icons icon-left">badge</i>
+        <select [(ngModel)]="registerData.role" name="role" required>
+          <option value="" disabled>Select Role</option>
+          <option value="CITIZEN">Citizen</option>
+          <option value="OFFICER">Officer</option>
+          <option value="ADMIN">Admin</option> 
+        </select>
+      </div>
+
+      <button type="submit">
+        <i class="material-icons icon-right">how_to_reg</i>
+        Register Account
+      </button>
+    </form>
+
+    <p class="redirect">
+      Already have an account?
+      <a routerLink="/auth/login">
+        **Login Here**
+      </a>
+    </p>
+  </div>
+</div>

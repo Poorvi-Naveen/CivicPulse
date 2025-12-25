@@ -1,0 +1,97 @@
+/* src/app/shared/sidebar/sidebar.component.css */
+.sidebar {
+  width: 260px;
+  background-color: #ffffff;
+  height: calc(100vh - 70px); /* Full height minus Navbar */
+  position: fixed;
+  top: 70px; /* Below Navbar */
+  left: 0;
+  /* Styling */
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+  border-right: 1px solid #eaeaea;
+  /* Flex Layout for Links + Footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 20px;
+  /* Layering */
+  z-index: 999; /* Below Navbar (1000), Above Overlay (950) */
+  /* Transition for Mobile Slide-in */
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.sidebar.closed {
+  transform: translateX(-100%);
+}
+.nav-links {
+  list-style: none;
+  padding: 0 12px; /* Add side padding for floating effect */
+  margin: 0;
+}
+
+.nav-links li {
+  margin-bottom: 8px;
+}
+
+.nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 12px; /* Rounded links */
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-links a i {
+  margin-right: 16px;
+  font-size: 22px;
+  color: #999;
+  transition: color 0.2s;
+}
+
+/* Hover State */
+.nav-links a:hover {
+  background-color: #f0f7ff;
+  color: #003366;
+  transform: translateX(5px);
+}
+.nav-links a:hover i { color: #003366; }
+
+/* Active State */
+.nav-links a.active {
+  background: linear-gradient(90deg, #e6f0fa 0%, #ffffff 100%);
+  color: #003366;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 51, 102, 0.05);
+}
+.nav-links a.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 4px;
+  background-color: #FF9933; /* Orange accent */
+  border-radius: 0 4px 4px 0;
+}
+.nav-links a.active i { color: #003366; }
+
+/* Mobile Slide-In Logic */
+@media (max-width: 768px) {
+  .sidebar {
+    height: 100vh; /* Full screen height on mobile */
+    top: 0;        /* Cover navbar area too if desired, or keep 70px if you want navbar visible */
+    z-index: 1100; /* On mobile, sit ABOVE navbar */
+    
+    /* Default Hidden on Mobile */
+    transform: translateX(-100%);
+  }
+
+  /* When open on mobile, slide in */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}

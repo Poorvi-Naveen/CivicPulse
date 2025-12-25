@@ -1,0 +1,78 @@
+/* src/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif; /* Modern, clean font */
+  background-color: #f0f2f5; /* Softer light grey */
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #003366;
+}
+
+/* Modern Button Reset */
+button {
+  font-family: 'Poppins', sans-serif;
+}
+.auth-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+mat-card {
+  width: 350px;
+  padding: 20px;
+  border-top: 4px solid #1a73e8; /* Blue Primary */
+}
+
+button {
+  margin-top: 15px;
+}
+
+h2 {
+  color: #1a73e8;
+  margin-bottom: 10px;
+}
+
+/* Role Colors: Accent + Success */
+mat-select {
+  --mat-option-selected-state-label-text-color: #ff8c00; /* Orange Accent */
+}
+
+.full {
+  width: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #e6f0ff, #c3d9ff);
+  height: 100vh;
+}
+
+.app-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 4px;
+}
+
+.app-tagline {
+  font-size: 14px;
+  color: #004b87;
+  font-weight: 500;
+}

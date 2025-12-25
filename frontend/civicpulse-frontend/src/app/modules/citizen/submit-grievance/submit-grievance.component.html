@@ -1,0 +1,117 @@
+<!-- src/app/modules/citizen/submit-grievance/submit-grievance.component.html -->
+<div class="submit-grievance-container">
+  <h1>Submit a New Grievance</h1>
+  <p>Report issues in your community to get them resolved</p>
+
+  <form [formGroup]="grievanceForm" (ngSubmit)="onSubmit()" class="grievance-form">
+    <div class="form-section">
+      <h2>Basic Information</h2>
+
+      <div class="form-field">
+        <label for="category">Category *</label>
+
+        <select id="category" formControlName="categoryId" class="full-width">
+          <option value="" disabled selected>
+            Select a category
+          </option>
+
+          <option *ngFor="let category of categories" [ngValue]="category.categoryId">
+            {{ category.categoryName }}
+          </option>
+        </select>
+        <div *ngIf="grievanceForm.controls['categoryId'].invalid 
+           && grievanceForm.controls['categoryId'].touched" class="error-message">
+          Please select a category
+        </div>
+      </div>
+
+
+      <div class="form-field">
+        <label for="title">Title *</label>
+        <input id="title" type="text" formControlName="title" placeholder="Brief description of the issue">
+        <div *ngIf="grievanceForm.controls['title'].invalid && grievanceForm.controls['title'].touched"
+          class="error-message">
+          Title is required (minimum 5 characters)
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="description">Description *</label>
+        <textarea id="description" formControlName="description" rows="4"
+          placeholder="Detailed description of the issue"></textarea>
+        <div *ngIf="grievanceForm.controls['description'].invalid && grievanceForm.controls['description'].touched"
+          class="error-message">
+          Description is required (minimum 10 characters)
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="priority">Priority</label>
+        <select id="priority" formControlName="priority" class="full-width">
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+          <option value="URGENT">Urgent</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Location Information</h2>
+
+      <div class="form-field">
+        <label for="location">Location *</label>
+        <input id="location" type="text" formControlName="location" placeholder="Address or landmark">
+        <div *ngIf="grievanceForm.controls['location'].invalid && grievanceForm.controls['location'].touched"
+          class="error-message">
+          Location is required
+        </div>
+      </div>
+
+      <div class="location-coords">
+        <div class="form-field">
+          <label for="latitude">Latitude</label>
+          <input id="latitude" type="number" formControlName="latitude" placeholder="Latitude" step="any">
+        </div>
+
+        <div class="form-field">
+          <label for="longitude">Longitude</label>
+          <input id="longitude" type="number" formControlName="longitude" placeholder="Longitude" step="any">
+        </div>
+
+        <button type="button" (click)="getCurrentLocation()" class="location-btn">
+          <i class="material-icons">my_location</i> Get Current Location
+        </button>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Attach Image (Optional)</h2>
+
+      <div class="image-upload">
+        <div *ngIf="!previewUrl" class="upload-area" (click)="triggerFileInput()">
+          <i class="material-icons">cloud_upload</i>
+          <p>Click to upload an image</p>
+          <p class="small-text">JPG, PNG up to 5MB</p>
+        </div>
+
+        <div *ngIf="previewUrl" class="preview-container">
+          <img [src]="previewUrl" alt="Preview" class="image-preview">
+          <button type="button" (click)="removeImage()" class="remove-btn">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+
+        <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="cancel-btn" routerLink="/citizen/dashboard">Cancel</button>
+      <button type="submit" class="submit-btn" [disabled]="grievanceForm.invalid || isSubmitting">
+        <span *ngIf="!isSubmitting">Submit Grievance</span>
+        <span *ngIf="isSubmitting">Submitting...</span>
+      </button>
+    </div>
+  </form>
+</div>

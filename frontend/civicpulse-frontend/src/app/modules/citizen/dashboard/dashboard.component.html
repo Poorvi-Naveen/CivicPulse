@@ -1,0 +1,61 @@
+<div class="dashboard-container">
+  <div class="welcome-banner">
+    <h1>Welcome back, Citizen!</h1>
+    <p>Track your complaints and contribute to a better city.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card blue">
+      <div class="icon-circle"><i class="material-icons">assignment</i></div>
+      <div class="stat-info">
+        <h3>12</h3>
+        <p>Total Complaints</p>
+      </div>
+    </div>
+    <div class="stat-card green">
+      <div class="icon-circle"><i class="material-icons">check_circle</i></div>
+      <div class="stat-info">
+        <h3>8</h3>
+        <p>Resolved</p>
+      </div>
+    </div>
+    <div class="stat-card orange">
+      <div class="icon-circle"><i class="material-icons">hourglass_empty</i></div>
+      <div class="stat-info">
+        <h3>4</h3>
+        <p>Pending</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="action-card" routerLink="/citizen/submit-grievance">
+      <i class="material-icons large-icon">add_a_photo</i>
+      <h2>Report a New Issue</h2>
+      <p>Click here to file a grievance regarding roads, sanitation, etc.</p>
+    </div>
+
+    <div class="recent-list-card">
+      <div class="card-header">
+        <h2>Recent Activity</h2>
+        <button class="view-all">View All</button>
+      </div>
+      <div class="list-item">
+        <div class="status-indicator pending"></div>
+        <div class="details">
+          <span class="title">Pothole on Main St.</span>
+          <span class="date">Submitted: Dec 08, 2025</span>
+        </div>
+        <span class="badge pending">Pending</span>
+      </div>
+      <div class="list-item">
+        <div class="status-indicator resolved"></div>
+        <div class="details">
+          <span class="title">Street Light Repair</span>
+          <span class="date">Submitted: Nov 20, 2025</span>
+        </div>
+        <span class="badge resolved">Resolved</span>
+      </div>
+    </div>
+  </div>
+</div>

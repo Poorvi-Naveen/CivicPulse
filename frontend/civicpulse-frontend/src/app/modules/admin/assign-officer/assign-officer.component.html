@@ -1,0 +1,135 @@
+<div class="assign-officer-container">
+  <h1>Assign Officers to Grievances</h1>
+
+  <div class="content-layout">
+    <div class="grievances-list">
+      <h2>Pending Grievances</h2>
+
+      <div *ngIf="loading" class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <div *ngIf="!loading && grievances.length === 0" class="empty-state">
+        <i class="material-icons">check_circle</i>
+        <p>No pending grievances</p>
+      </div>
+
+      <div *ngIf="!loading && grievances.length > 0" class="grievance-cards">
+        <mat-card
+          *ngFor="let grievance of grievances"
+          class="grievance-card"
+          [ngClass]="{ selected: selectedGrievance?.id === grievance.id }"
+          (click)="selectGrievance(grievance)">
+
+          <mat-card-header>
+            <mat-card-title>{{ grievance.title }}</mat-card-title>
+            <mat-card-subtitle>
+              <span class="date">
+                {{ grievance.createdAt | date:'mediumDate' }}
+              </span>
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="description">{{ grievance.description }}</p>
+
+            <div class="meta-info">
+              <div class="location">
+                <i class="material-icons">location_on</i>
+                <span>{{ grievance.location }}</span>
+              </div>
+
+              <div class="status-priority">
+                <mat-chip-listbox>
+
+                  <mat-chip-option
+                    [color]="getStatusColor(grievance.status)"
+                    selected>
+                    {{ grievance.status | titlecase }}
+                  </mat-chip-option>
+
+                  <mat-chip-option
+                    [color]="getPriorityColor(grievance.priority)"
+                    selected>
+                    {{ grievance.priority | titlecase }} Priority
+                  </mat-chip-option>
+
+                </mat-chip-listbox>
+              </div>
+            </div>
+          </mat-card-content>
+
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="assignment-form" *ngIf="selectedGrievance">
+      <h2>Assign Officer</h2>
+
+      <div class="selected-grievance-info">
+        <h3>{{ selectedGrievance.title }}</h3>
+        <p>{{ selectedGrievance.description }}</p>
+      </div>
+
+      <form [formGroup]="assignForm" (ngSubmit)="assignOfficer()">
+
+        <div class="form-field">
+          <label>Select Officer *</label>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-select formControlName="officerId" placeholder="Choose an officer">
+              <mat-option *ngFor="let officer of officers" [value]="officer.id">
+                {{ officer.name }} ({{ officer.email }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label>Department *</label>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-select formControlName="department" placeholder="Select department">
+              <mat-option *ngFor="let dept of departments" [value]="dept">
+                {{ dept }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-field">
+          <label>Remarks</label>
+          <mat-form-field appearance="outline" class="full-width">
+            <textarea
+              matInput
+              formControlName="remarks"
+              rows="3"
+              placeholder="Any special instructions or notes">
+            </textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            mat-stroked-button
+            (click)="selectedGrievance = null">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="assignForm.invalid">
+            Assign Officer
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <div class="no-selection" *ngIf="!selectedGrievance && grievances.length > 0">
+      <i class="material-icons large-icon">assignment_ind</i>
+      <p>Select a grievance to assign an officer</p>
+    </div>
+  </div>
+</div>

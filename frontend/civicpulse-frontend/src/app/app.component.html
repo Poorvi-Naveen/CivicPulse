@@ -1,0 +1,34 @@
+<div class="app-container">
+
+  <div *ngIf="showLayout && isMobile && isSidebarOpen" 
+       class="overlay" 
+       (click)="closeSidebar()">
+  </div>
+
+  <div *ngIf="showLayout">
+    
+    <app-navbar (toggleSidebar)="toggleSidebar()"></app-navbar>
+
+    <app-sidebar 
+        [class.open]="isMobile && isSidebarOpen"
+        [class.closed]="!isMobile && !isSidebarOpen"
+        [isOpen]="isSidebarOpen"
+        (closeSidebar)="closeSidebar()">
+    </app-sidebar>
+    
+    <div class="main-content-wrapper" 
+         [class.full-width]="isMobile || !isSidebarOpen">
+      
+      <main class="content-body">
+        <router-outlet></router-outlet>
+      </main>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+
+  <div *ngIf="!showLayout">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
