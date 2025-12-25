@@ -7,33 +7,20 @@ It provides role-based access for **Citizens**, **Officers**, and **Admins**, en
 
 ## Tech Stack
 
-### Frontend
-- Angular
-- Angular Material
-- TypeScript
-- HTML, SCSS
-
-### Backend
-- Spring Boot
-- Spring Security (JWT Authentication)
-- JPA / Hibernate
-- MySQL
-
-### Other Tools
-- Maven
-- Docker (optional)
-- Git & GitHub
+|      Frontend      |      Backend      |      Other Tools      |
+|:-------------------|:------------------|:----------------------|
+| <ul><li>Angular</li><li>TypeScript</li><li>HTML, SCSS</li></ul>|<ul><li>Spring Boot</li><li>Spring Security (JWT Authentication)</li><li>JPA / Hibernate</li><li>MySQL</li></ul>|<ul><li>Maven</li><li>Git & GitHub</li><li>PostMan</li></ul>|
 
 ---
 
 ## Project Structure
 
-civicPulse/
-├── backend/ # Spring Boot backend
-├── frontend/ # Angular frontend
-├── docker-compose.yml
-├── README.md
-├── .gitignore
+civicPulse/<br>
+├── backend/ # Spring Boot backend<br>
+├── frontend/ # Angular frontend<br>
+├── docker-compose.yml<br>
+├── README.md<br>
+├── .gitignore<br>
 
 
 ---
@@ -102,9 +89,7 @@ Frontend will be available at: http://localhost:4200
 The application supports role-based access:
 
 - **Citizen** – Register complaints, track status, submit feedback
-
 - **Officer** – View assigned grievances, update status
-
 - **Admin** – Manage users, assign officers, view reports
 
 JWT-based authentication is implemented for secure access.
@@ -131,8 +116,7 @@ JWT-based authentication is implemented for secure access.
 
 ## Author
 
-Poorvi Naveen
-poorvinaveen31@gmail.com
-Full Stack Developer
+Poorvi Naveen\
+poorvinaveen31@gmail.com\
+Full Stack Developer & Infosys Springboard Virtual Internship Intern\
 CivicPulse Project
-
