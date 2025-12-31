@@ -51,7 +51,6 @@ export class SubmitGrievanceComponent implements OnInit {
       categoryId: [null, Validators.required],
       title: ['', [Validators.required, Validators.minLength(5)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      priority: ['MEDIUM'],
       location: ['', Validators.required],
       latitude: [],
       longitude: []

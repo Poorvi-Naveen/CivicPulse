@@ -1,3 +1,4 @@
+//backend/src/main/java/com/civicpulse/dto/RegisterRequest.java
 package com.civicpulse.dto;
 
 public class RegisterRequest {
@@ -6,9 +7,7 @@ public class RegisterRequest {
     private String email;
     private String password;
     private String role;
-
-
-    // optional: role field (CITIZEN by default for now)
+    private String department;
 
     public String getName() { return name; }
 
@@ -23,5 +22,7 @@ public class RegisterRequest {
     public void setPassword(String password) { this.password = password; }
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
 }
 

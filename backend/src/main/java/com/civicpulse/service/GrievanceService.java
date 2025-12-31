@@ -82,10 +82,7 @@ public class GrievanceService {
         grievance.setLatitude(grievanceDTO.getLatitude());
         grievance.setLongitude(grievanceDTO.getLongitude());
         grievance.setStatus(Grievance.Status.PENDING);
-        grievance.setPriority(
-                grievanceDTO.getPriority() != null
-                        ? grievanceDTO.getPriority()
-                        : Grievance.Priority.MEDIUM);
+        grievance.setPriority(Grievance.Priority.MEDIUM);
 
         return convertToDTO(grievanceRepository.save(grievance));
     }

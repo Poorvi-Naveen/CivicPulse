@@ -18,7 +18,8 @@ export class SignupComponent {
     name: '',
     email: '',
     password: '',
-    role:''
+    role:'',
+    department: ''
   };
 
   constructor(private authService: AuthService, private router: Router) {}

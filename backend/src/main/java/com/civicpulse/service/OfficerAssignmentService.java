@@ -6,6 +6,7 @@ import com.civicpulse.model.OfficerAssignment;
 import com.civicpulse.model.User;
 import com.civicpulse.repository.OfficerAssignmentRepository;
 import com.civicpulse.repository.UserRepository;
+import com.civicpulse.repository.GrievanceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,14 @@ public class OfficerAssignmentService {
 
     private final OfficerAssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
+    private final GrievanceRepository grievanceRepository; 
 
     public OfficerAssignmentService(OfficerAssignmentRepository assignmentRepository,
-                                   UserRepository userRepository) {
+            UserRepository userRepository,
+            GrievanceRepository grievanceRepository) {
         this.assignmentRepository = assignmentRepository;
         this.userRepository = userRepository;
+        this.grievanceRepository = grievanceRepository;
     }
 
     public List<OfficerAssignment> getAssignmentsByOfficerId(Long officerId) {
@@ -33,15 +37,27 @@ public class OfficerAssignmentService {
     }
 
     @Transactional
-    public OfficerAssignment assignOfficerToGrievance(Long grievanceId, Long officerId, String department) {
+    public OfficerAssignment assignOfficerToGrievance(
+            Long grievanceId,
+            Long officerId,
+            String department,
+            Grievance.Priority priority,
+            String deadlineStr) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
         User officer = userRepository.findById(officerId)
                 .orElseThrow(() -> new RuntimeException("Officer not found"));
 
         OfficerAssignment assignment = new OfficerAssignment();
-        assignment.setGrievance(new Grievance()); // Set just the ID
-        assignment.getGrievance().setId(grievanceId);
+        assignment.setGrievance(grievance);
         assignment.setOfficer(officer);
         assignment.setDepartment(department);
+        assignment.setPriority(priority);
+        assignment.setDeadline(LocalDateTime.parse(deadlineStr));
+
+        grievance.setStatus(Grievance.Status.IN_PROGRESS);
 
         return assignmentRepository.save(assignment);
     }

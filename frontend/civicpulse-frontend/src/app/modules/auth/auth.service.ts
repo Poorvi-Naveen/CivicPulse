@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Adjust to your backend URL
+  private apiUrl = 'http://localhost:8080/api/auth'; 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 

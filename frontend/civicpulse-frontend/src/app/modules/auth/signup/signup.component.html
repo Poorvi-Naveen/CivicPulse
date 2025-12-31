@@ -5,7 +5,8 @@
       Unified Smart City Feedback & Redressal System
     </p>
     <p class="intro-text">
-      Join the CivicPulse community today to contribute to better local governance. Your voice drives change in our city's development and service delivery.
+      Join the CivicPulse community today to contribute to better local governance. Your voice drives change in our
+      city's development and service delivery.
     </p>
     <div class="feature-icons">
       <i class="material-icons">person_add</i>
@@ -21,7 +22,7 @@
     <h2>Create Your CivicPulse Account</h2>
 
     <form (ngSubmit)="onSubmit()">
-      
+
       <div class="input-group">
         <i class="material-icons icon-left">person</i>
         <input type="text" placeholder="Full Name" [(ngModel)]="registerData.name" name="name" required>
@@ -31,7 +32,7 @@
         <i class="material-icons icon-left">email</i>
         <input type="email" placeholder="Email Address" [(ngModel)]="registerData.email" name="email" required>
       </div>
-      
+
       <div class="input-group">
         <i class="material-icons icon-left">lock</i>
         <input type="password" placeholder="Password" [(ngModel)]="registerData.password" name="password" required>
@@ -43,7 +44,20 @@
           <option value="" disabled>Select Role</option>
           <option value="CITIZEN">Citizen</option>
           <option value="OFFICER">Officer</option>
-          <option value="ADMIN">Admin</option> 
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+      <div class="input-group" *ngIf="registerData.role === 'OFFICER'">
+        <i class="material-icons icon-left">apartment</i>
+        <select [(ngModel)]="registerData.department" name="department" required>
+          <option value="" disabled>Select Department</option>
+          <option value="Public Works">Public Works</option>
+          <option value="Sanitation">Sanitation</option>
+          <option value="Water Supply">Water Supply</option>
+          <option value="Electricity">Electricity</option>
+          <option value="Health">Health</option>
+          <option value="Traffic Management">Traffic Management</option>
+          <option value="Parks and Recreation">Parks and Recreation</option>
         </select>
       </div>
 

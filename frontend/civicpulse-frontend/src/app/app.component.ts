@@ -33,9 +33,9 @@ export class AppComponent {
   checkScreenSize() {
     this.isMobile = window.innerWidth < 768;
     if (this.isMobile) {
-      this.isSidebarOpen = false; // Always close on mobile default
+      this.isSidebarOpen = false; 
     } else {
-      this.isSidebarOpen = true; // Always open on desktop default
+      this.isSidebarOpen = true; 
     } 
   }
 

@@ -35,6 +35,13 @@ public class OfficerAssignment {
         assignedAt = LocalDateTime.now();
     }
 
+    @Column(name = "deadline", nullable = false)
+    private LocalDateTime deadline;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Grievance.Priority priority;
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -91,4 +98,21 @@ public class OfficerAssignment {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
+    public Grievance.Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Grievance.Priority priority) {
+        this.priority = priority;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
 }

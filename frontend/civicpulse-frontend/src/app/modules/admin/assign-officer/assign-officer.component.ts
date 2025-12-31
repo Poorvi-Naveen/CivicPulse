@@ -46,16 +46,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class AssignOfficerComponent implements OnInit {
 
-  // =======================
-  // STATE
-  // =======================
   grievances: Grievance[] = [];
   officers: any[] = [];
   loading = true;
   selectedGrievance: Grievance | null = null;
   assignForm: FormGroup;
+  filteredOfficers: any[] = [];
 
-  // 🔴 THIS WAS MISSING
   departments: string[] = [
     'Public Works',
     'Sanitation',
@@ -73,10 +70,13 @@ export class AssignOfficerComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.assignForm = this.fb.group({
-      officerId: [null, Validators.required],
+      priority: [null, Validators.required],
       department: ['', Validators.required],
+      officerId: [null, Validators.required],
+      deadlineDays: [null, Validators.required],
       remarks: ['']
     });
+
   }
 
   ngOnInit(): void {
@@ -84,9 +84,6 @@ export class AssignOfficerComponent implements OnInit {
     this.loadOfficers();
   }
 
-  // =======================
-  // DATA LOADERS
-  // =======================
   loadPendingGrievances(): void {
     this.grievanceService.getGrievancesByStatus('PENDING').subscribe({
       next: data => {
@@ -103,7 +100,10 @@ export class AssignOfficerComponent implements OnInit {
 
   loadOfficers(): void {
     this.userService.getUsersByRole('OFFICER').subscribe({
-      next: data => (this.officers = data),
+      next: data => {
+        this.officers = data;
+        this.filteredOfficers = data; // default
+      },
       error: err => {
         this.snackBar.open('Failed to load officers', 'Close', { duration: 3000 });
         console.error(err);
@@ -111,9 +111,6 @@ export class AssignOfficerComponent implements OnInit {
     });
   }
 
-  // =======================
-  // UI ACTIONS
-  // =======================
   selectGrievance(grievance: Grievance): void {
     this.selectedGrievance = grievance;
     this.assignForm.reset();
@@ -140,9 +137,6 @@ export class AssignOfficerComponent implements OnInit {
       });
   }
 
-  // =======================
-  // 🔴 THESE WERE MISSING
-  // =======================
   getStatusColor(status: string): string {
     switch (status) {
       case 'PENDING': return 'warn';
@@ -151,6 +145,27 @@ export class AssignOfficerComponent implements OnInit {
       case 'REJECTED': return 'warn';
       default: return '';
     }
+  }
+  onPriorityChange(priority: string): void {
+    let days: number;
+
+    switch (priority) {
+      case 'LOW':
+        days = 14;
+        break;
+      case 'MEDIUM':
+        days = 5;
+        break;
+      case 'HIGH':
+        days = 2;
+        break;
+      default:
+        days = 5;
+    }
+
+    this.assignForm.patchValue({
+      deadlineDays: days
+    });
   }
 
   getPriorityColor(priority: string): string {
@@ -162,4 +177,12 @@ export class AssignOfficerComponent implements OnInit {
       default: return '';
     }
   }
+  onDepartmentChange(department: string): void {
+    this.filteredOfficers = this.officers.filter(
+      officer => officer.department === department
+    );
+
+    this.assignForm.patchValue({ officerId: null });
+  }
+
 }

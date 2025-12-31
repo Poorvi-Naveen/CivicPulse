@@ -1,6 +1,7 @@
 // backend/src/main/java/com/civicpulse/controller/OfficerAssignmentController.java
 package com.civicpulse.controller;
 
+import com.civicpulse.model.Grievance;
 import com.civicpulse.model.OfficerAssignment;
 import com.civicpulse.service.OfficerAssignmentService;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,16 @@ public class OfficerAssignmentController {
     public ResponseEntity<OfficerAssignment> assignOfficer(
             @RequestParam Long grievanceId,
             @RequestParam Long officerId,
-            @RequestParam String department) {
-        OfficerAssignment assignment = assignmentService.assignOfficerToGrievance(grievanceId, officerId, department);
+            @RequestParam String department,
+            @RequestParam Grievance.Priority priority,
+            @RequestParam String deadline) {
+        OfficerAssignment assignment = assignmentService.assignOfficerToGrievance(
+                grievanceId,
+                officerId,
+                department,
+                priority,
+                deadline);
+
         return new ResponseEntity<>(assignment, HttpStatus.CREATED);
     }
 
