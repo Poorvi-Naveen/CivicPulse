@@ -81,8 +81,17 @@ public class OfficerAssignmentService {
             throw new RuntimeException("Proof image is required");
         }
 
+        String uploadDir = "uploads/resolutions";
+        Files.createDirectories(Paths.get(uploadDir));
+
+        String fileName = System.currentTimeMillis() + "_" + proofImage.getOriginalFilename();
+        Path filePath = Paths.get(uploadDir, fileName);
+
+        Files.write(filePath, proofImage.getBytes());
+
         assignment.setRemarks(remarks);
         assignment.setResolvedAt(LocalDateTime.now());
+        assignment.setProofImagePath("/uploads/resolutions/" + fileName);
 
         Grievance grievance = assignment.getGrievance();
         grievance.setStatus(Grievance.Status.RESOLUTION_SUBMITTED);

@@ -1,135 +1,190 @@
 // frontend/civicpulse-frontend/src/app/modules/citizen/my-complaints/my-complaints.component.scss
-.my-complaints-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+// Variables
+$primary-dark: #003366;
+$primary-blue: #00509e;
+$bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent 70%), 
+              radial-gradient(at bottom right, rgba(200, 220, 255, 0.3), transparent 70%),
+              #f8f8f8;
 
-  .page-header {
+.page-wrapper {
+  background: $bg-gradient;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-left: 5px solid $primary-blue;
+  padding-left: 20px;
+
+  h1 {
+    color: $primary-dark;
+    margin: 0;
+    font-weight: 700;
+  }
+  p { margin: 5px 0 0 0; color: #666; }
+
+  .new-complaint-btn {
+    background-color: $primary-blue;
+    color: white;
+    i { margin-right: 8px; }
+  }
+}
+
+/* Filters */
+.filter-toolbar {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+
+  .filter-label {
+    font-weight: 600;
+    color: $primary-dark;
+  }
+}
+
+/* Grid */
+.complaints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+/* Civic Card Styling */
+.civic-card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+}
+
+.card-stripe {
+  height: 4px;
+  background: linear-gradient(to right, #FF9933 33.3%, white 33.3%, white 66.6%, #138808 66.6%);
+  width: 100%;
+}
+
+.card-content-wrapper {
+  padding: 20px 20px 0 20px;
+  flex-grow: 1;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+
+  .category-badge {
+    color: $primary-blue;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .date-text { color: #999; }
+}
+
+.card-title {
+  color: $primary-dark;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+  margin-bottom: 15px;
+
+  .location-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    
-    h1 {
-      margin: 0;
-      color: #1976d2;
-    }
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    i { font-size: 18px; margin-right: 6px; color: #888; }
   }
 
-  .filters {
-    margin-bottom: 20px;
-  }
-
-  .loading-container {
+  .status-chips {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    
-    p {
-      margin-top: 15px;
-      color: #666;
-    }
+    gap: 8px;
   }
+}
 
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    text-align: center;
-    
-    .large-icon {
-      font-size: 64px;
-      color: #ccc;
-      margin-bottom: 15px;
-    }
-    
-    h3 {
-      color: #333;
-      margin-bottom: 10px;
-    }
-    
-    p {
-      color: #666;
-      margin-bottom: 20px;
-    }
-  }
+/* Custom Chips */
+.chip {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
 
-  .complaints-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
-    
-    .complaint-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      
-      mat-card-header {
-        padding-bottom: 10px;
-        
-        mat-card-title {
-          font-size: 1.2rem;
-          margin-bottom: 5px;
-        }
-        
-        mat-card-subtitle {
-          display: flex;
-          justify-content: space-between;
-          
-          .category {
-            font-weight: 500;
-            color: #1976d2;
-          }
-          
-          .date {
-            color: #666;
-          }
-        }
-      }
-      
-      mat-card-content {
-        flex-grow: 1;
-        
-        .description {
-          margin-bottom: 15px;
-          color: #555;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        
-        .meta-info {
-          .location {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            color: #666;
-            
-            i {
-              font-size: 18px;
-              margin-right: 5px;
-              color: #1976d2;
-            }
-          }
-          
-          .status-priority {
-            mat-chip-list {
-              mat-chip {
-                margin-right: 5px;
-              }
-            }
-          }
-        }
-      }
-      
-      mat-card-actions {
-        padding: 10px 0;
-      }
-    }
+.status-pending { background: #fff3e0; color: #ef6c00; }
+.status-in_progress { background: #e3f2fd; color: #1976d2; }
+.status-resolved { background: #e8f5e9; color: #2e7d32; }
+.status-rejected { background: #ffebee; color: #c62828; }
+
+.priority-high, .priority-urgent { color: #d32f2f; border: 1px solid #ffcdd2; }
+.priority-medium { color: #f57c00; border: 1px solid #ffe0b2; }
+.priority-low { color: #1976d2; border: 1px solid #bbdefb; }
+
+.card-actions {
+  padding: 10px 15px;
+  background: #fcfcfc;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  
+  .track-btn { color: #666; }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px;
+  color: #666;
+
+  .empty-icon {
+    font-size: 60px;
+    color: #ddd;
+    margin-bottom: 10px;
   }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  color: #666;
+  gap: 15px;
 }

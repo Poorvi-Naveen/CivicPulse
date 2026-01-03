@@ -1,13 +1,17 @@
-<!-- src/app/modules/officer/assigned-grievances/assigned-grievances.component.html -->
-<div class="assigned-grievances-container">
-  <div class="page-header">
-    <h1>Assigned Grievances</h1>
-  </div>
+<!-- frontend/civicpulse-frontend/src/app/modules/officer/assigned-grievances/assigned-grievances.component.html -->
+<div class="page-wrapper">
+  
+  <div class="dashboard-header">
+    <div class="header-content">
+      <h1>Assigned Grievances</h1>
+      <p>Manage your active cases and submit resolutions</p>
+    </div>
+    </div>
 
-  <div class="filters">
-    <div class="filter-group">
-      <label>Status:</label>
-      <mat-form-field appearance="outline">
+  <div class="filter-toolbar">
+    <div class="filter-item">
+      <label>Status</label>
+      <mat-form-field appearance="outline" class="dense-form-field">
         <mat-select [(value)]="statusFilter" (selectionChange)="applyFilters()">
           <mat-option value="ALL">All Statuses</mat-option>
           <mat-option value="PENDING">Pending</mat-option>
@@ -16,9 +20,9 @@
       </mat-form-field>
     </div>
 
-    <div class="filter-group">
-      <label>Priority:</label>
-      <mat-form-field appearance="outline">
+    <div class="filter-item">
+      <label>Priority</label>
+      <mat-form-field appearance="outline" class="dense-form-field">
         <mat-select [(value)]="priorityFilter" (selectionChange)="applyFilters()">
           <mat-option value="ALL">All Priorities</mat-option>
           <mat-option value="LOW">Low</mat-option>
@@ -30,113 +34,88 @@
     </div>
   </div>
 
-  <div *ngIf="loading" class="loading-container">
-    <mat-spinner diameter="50"></mat-spinner>
-    <p>Loading assigned grievances...</p>
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading your assignments...</p>
   </div>
 
   <div *ngIf="!loading && filteredGrievances.length === 0" class="empty-state">
-    <i class="material-icons large-icon">assignment</i>
-    <h3>No grievances assigned</h3>
-    <p>You don't have any grievances assigned to you at the moment.</p>
+    <div class="icon-circle">
+      <i class="material-icons">assignment_turned_in</i>
+    </div>
+    <h3>No Assignments Found</h3>
+    <p>You have no grievances matching the current filters.</p>
   </div>
 
-  <div *ngIf="!loading && filteredGrievances.length > 0" class="grievances-table">
-    <table mat-table [dataSource]="filteredGrievances">
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let grievance"> #{{ grievance.id }} </td>
-      </ng-container>
+  <div *ngIf="!loading && filteredGrievances.length > 0" class="task-grid">
+    <mat-card *ngFor="let grievance of filteredGrievances" class="task-card">
+      
+      <div class="card-stripe"></div>
 
-      <!-- Title Column -->
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let grievance"> {{ grievance.title }} </td>
-      </ng-container>
-
-      <!-- Category Column -->
-      <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef> Category </th>
-        <td mat-cell *matCellDef="let grievance"> {{ grievance.categoryName }} </td>
-      </ng-container>
-
-      <!-- Location Column -->
-      <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef> Location </th>
-        <td mat-cell *matCellDef="let grievance"> {{ grievance.location }} </td>
-      </ng-container>
-
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let grievance">
-          <mat-chip [color]="getStatusColor(grievance.status)" selected>
-            {{ grievance.status | titlecase }}
-          </mat-chip>
-        </td>
-      </ng-container>
-
-      <!-- Priority Column -->
-      <ng-container matColumnDef="priority">
-        <th mat-header-cell *matHeaderCellDef> Priority </th>
-        <td mat-cell *matCellDef="let grievance">
-          <mat-chip [color]="getPriorityColor(grievance.priority)" selected>
+      <div class="card-header">
+        <div class="id-badge">#{{ grievance.id }}</div>
+        <div class="meta-badges">
+          <span class="chip priority-{{ grievance.priority | lowercase }}">
             {{ grievance.priority | titlecase }}
-          </mat-chip>
-        </td>
-      </ng-container>
+          </span>
+          <span class="chip status-{{ grievance.status | lowercase }}">
+            {{ grievance.status | titlecase }}
+          </span>
+        </div>
+      </div>
 
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <mat-card-content>
+        <h3 class="card-title">{{ grievance.title }}</h3>
+        
+        <div class="info-row">
+          <i class="material-icons">category</i>
+          <span>{{ grievance.categoryName }}</span>
+        </div>
+        
+        <div class="info-row">
+          <i class="material-icons">place</i>
+          <span>{{ grievance.location }}</span>
+        </div>
 
-        <td mat-cell *matCellDef="let grievance">
+        <div class="action-zone" *ngIf="grievance.status === 'IN_PROGRESS'">
+          <div class="zone-header">
+            <i class="material-icons">build</i> Action Required
+          </div>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Resolution Remarks</mat-label>
+            <textarea matInput rows="3" 
+                      placeholder="Describe how you resolved this..." 
+                      [(ngModel)]="remarksText"></textarea>
+          </mat-form-field>
 
-          <!-- View details -->
-          <button mat-icon-button color="primary" matTooltip="View Details"
-            (click)="viewGrievanceDetails(grievance.id!)">
-            <mat-icon>visibility</mat-icon>
-          </button>
-
-          <!-- Resolution submission UI (ONLY for IN_PROGRESS) -->
-          <div class="resolution-form" *ngIf="grievance.status === 'IN_PROGRESS'">
-
-            <mat-card class="resolution-card">
-
-              <mat-card-title>Submit Resolution</mat-card-title>
-
-              <mat-form-field appearance="outline" class="full-width">
-                <textarea matInput rows="3" placeholder="Describe how the grievance was resolved"
-                  [(ngModel)]="remarksText">
-      </textarea>
-              </mat-form-field>
-
-              <div class="file-upload">
-                <label>Upload proof image *</label>
-                <input type="file" accept="image/*" (change)="onFileSelected($event)" />
-              </div>
-
-              <button mat-raised-button color="primary" class="submit-btn" (click)="openSubmitResolution(grievance)">
-                Submit for Admin Review
-              </button>
-
-            </mat-card>
-
+          <div class="file-upload-row">
+            <label class="custom-file-upload">
+              <input type="file" accept="image/*" (change)="onFileSelected($event)"/>
+              <i class="material-icons">cloud_upload</i> Upload Proof
+            </label>
+            <span class="file-name" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+            <span class="file-name placeholder" *ngIf="!selectedFile">No file chosen</span>
           </div>
 
+          <button mat-raised-button color="primary" class="submit-btn" (click)="openSubmitResolution(grievance)">
+            Submit for Review
+          </button>
+        </div>
 
-          <!-- Status hint -->
-          <span class="status-hint" *ngIf="grievance.status === 'RESOLUTION_SUBMITTED'">
-            Waiting for admin review
-          </span>
+        <div class="status-message" *ngIf="grievance.status === 'RESOLUTION_SUBMITTED'">
+          <i class="material-icons">hourglass_empty</i>
+          <span>Resolution submitted. Waiting for admin approval.</span>
+        </div>
 
-        </td>
-      </ng-container>
+      </mat-card-content>
 
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+      <mat-card-actions align="end" class="card-footer">
+         <button mat-button color="primary" (click)="viewGrievanceDetails(grievance.id!)">
+           View Full Details
+         </button>
+      </mat-card-actions>
+      
+    </mat-card>
   </div>
 </div>

@@ -8,12 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatChipsModule } from '@angular/material/chips'; // Add this import
+import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSpinner } from '@angular/material/progress-spinner';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { OfficerAssignmentService } from '../../../core/services/officer-assignment.service';
 import { FormsModule } from '@angular/forms';
@@ -37,7 +38,8 @@ import { FormsModule } from '@angular/forms';
     MatTooltipModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatSpinner
+    MatInputModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AssignedGrievancesComponent implements OnInit {
@@ -46,7 +48,7 @@ export class AssignedGrievancesComponent implements OnInit {
   filteredGrievances: Grievance[] = [];
   statusFilter = 'ALL';
   priorityFilter = 'ALL';
-  displayedColumns: string[] = ['id', 'title', 'category', 'location', 'status', 'priority', 'actions'];
+  //displayedColumns: string[] = ['id', 'title', 'category', 'location', 'status', 'priority', 'actions'];
   remarksText: string = '';
   selectedFile: File | null = null;
 
@@ -64,11 +66,19 @@ export class AssignedGrievancesComponent implements OnInit {
     const officerId = JSON.parse(localStorage.getItem('currentUser')!).id;
 
     this.assignmentService.getAssignmentsByOfficer(officerId).subscribe({
-      next: (data) => {
-        this.grievances = data.map(a => ({
-          ...a.grievance,
-          assignmentId: a.id
-        }));
+      next: (assignments) => {
+        const grievanceMap = new Map<number, any>();
+
+        assignments.forEach(a => {
+          const grievanceId = a.grievance.id;
+
+          grievanceMap.set(grievanceId, {
+            ...a.grievance,
+            assignmentId: a.id
+          });
+        });
+
+        this.grievances = Array.from(grievanceMap.values());
 
         this.filteredGrievances = [...this.grievances];
         this.loading = false;
@@ -98,22 +108,23 @@ export class AssignedGrievancesComponent implements OnInit {
 
   getStatusColor(status: string): string {
     switch (status) {
-      case 'PENDING': return 'warning';
-      case 'IN_PROGRESS': return 'info';
-      case 'RESOLVED': return 'success';
-      case 'REJECTED': return 'error';
+      case 'PENDING': return 'warn';
+      case 'IN_PROGRESS': return 'primary';
+      case 'RESOLVED': return 'accent';
+      case 'REJECTED': return 'warn';
       default: return '';
     }
   }
 
   getPriorityColor(priority: string): string {
-    switch (priority) {
+    /*switch (priority) {
       case 'LOW': return 'success';
       case 'MEDIUM': return 'info';
       case 'HIGH': return 'warning';
       case 'URGENT': return 'error';
       default: return '';
-    }
+    }*/
+    return 'primary';
   }
 
   /*updateGrievanceStatus(grievanceId: number, newStatus: string): void {
@@ -174,9 +185,9 @@ export class AssignedGrievancesComponent implements OnInit {
           );
         }
       });
-      console.log('Submitting resolution for assignment ID:', grievance.assignmentId);
-      console.log('Remarks:', this.remarksText);
-      console.log('Selected file:', this.selectedFile);
+    console.log('Submitting resolution for assignment ID:', grievance.assignmentId);
+    console.log('Remarks:', this.remarksText);
+    console.log('Selected file:', this.selectedFile);
   }
 
   onFileSelected(event: Event): void {

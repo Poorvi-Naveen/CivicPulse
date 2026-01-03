@@ -1,19 +1,253 @@
-mat-card {
+/* frontend/civicpulse-frontend/src/app/modules/admin/resolution-review/resolution-review.component.scss */
+
+// Variables based on your theme
+$primary-dark: #003366;
+$primary-blue: #00509e;
+$bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent 70%), 
+              radial-gradient(at bottom right, rgba(200, 220, 255, 0.3), transparent 70%),
+              #f8f8f8;
+
+:host {
+  display: block;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.page-wrapper {
+  padding: 40px;
+  background: $bg-gradient;
+  min-height: 100vh;
+}
+
+/* --- Header Section --- */
+.header-section {
+  margin-bottom: 30px;
+  border-left: 5px solid $primary-blue;
+  padding-left: 15px;
+
+  h1 {
+    color: $primary-dark;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .subtitle {
+    color: #555;
+    margin-top: 5px;
+    font-size: 1rem;
+  }
+}
+
+/* --- Grid Layout for Cards --- */
+.grievance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* --- Civic Card Styling --- */
+.civic-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+}
+
+/* The Theme Stripe (Flag colors) */
+.card-stripe {
+  height: 6px;
+  background: linear-gradient(to right, #FF9933 33.3%, white 33.3%, white 66.6%, #138808 66.6%);
+  width: 100%;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  color: $primary-dark;
+  font-size: 1.25rem;
   margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
-.resolution-box {
-  margin-top: 24px;
-}
-
-.proof-img {
-  max-width: 300px;
-  margin-top: 12px;
-  border-radius: 6px;
-}
-
-.actions {
-  margin-top: 16px;
+/* Info Rows (Icon + Text) */
+.info-row {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #555;
+  font-size: 0.95rem;
+
+  .material-icons {
+    color: $primary-blue;
+    font-size: 20px;
+    margin-right: 10px;
+    opacity: 0.8;
+  }
+}
+
+.status-badge {
+  background-color: #e3f2fd;
+  color: $primary-blue;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.card-actions {
+  margin-top: 20px;
+  
+  .civic-btn {
+    width: 100%;
+    background-color: $primary-blue;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    
+    ::ng-deep .mat-mdc-button-touch-target { 
+       height: auto; 
+    }
+    
+    .material-icons {
+      font-size: 18px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+}
+
+/* --- Detailed Resolution View (The big card) --- */
+.resolution-detail-container {
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.detail-card {
+  background: white;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.detail-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    color: $primary-dark;
+    margin: 0;
+    font-size: 1.5rem;
+  }
+}
+
+.detail-content {
+  padding: 30px;
+}
+
+.info-group {
+  margin-bottom: 24px;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .value {
+    color: #333;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+
+    .material-icons {
+      color: $primary-blue;
+      margin-right: 8px;
+    }
+  }
+
+  .remarks-box {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid $primary-blue;
+    border-radius: 0 6px 6px 0;
+    font-style: italic;
+    color: #555;
+  }
+}
+
+.img-wrapper {
+  background: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  
+  .proof-img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 6px;
+    display: block;
+  }
+}
+
+.detail-actions {
+  padding: 20px 30px;
+  background: #fcfcfc;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+
+  button {
+    padding: 8px 24px;
+    font-size: 1rem;
+    
+    .material-icons {
+      font-size: 20px;
+      margin-right: 6px;
+    }
+  }
+
+  .btn-approve {
+    background-color: #2e7d32; // Success Green
+    color: white;
+  }
+
+  .btn-reassign {
+    background-color: #d32f2f; // Warn Red
+    color: white;
+  }
+}
+
+/* --- Loading State --- */
+.loading-state {
+  text-align: center;
+  padding: 50px;
+  color: #666;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

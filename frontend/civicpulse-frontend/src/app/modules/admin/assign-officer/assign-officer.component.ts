@@ -23,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { OfficerAssignmentService } from '../../../core/services/officer-assignment.service';
 
 @Component({
@@ -43,7 +44,8 @@ import { OfficerAssignmentService } from '../../../core/services/officer-assignm
     MatProgressBarModule,
     MatSnackBarModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ]
 })
 export class AssignOfficerComponent implements OnInit {

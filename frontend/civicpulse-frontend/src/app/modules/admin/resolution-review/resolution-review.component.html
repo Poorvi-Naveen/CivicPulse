@@ -1,41 +1,87 @@
 <!-- frontend/civicpulse-frontend/src/app/modules/admin/resolution-review/resolution-review.component.html -->
-<h2>Resolution Review</h2>
-
-<div *ngIf="loading">Loading...</div>
-
-<mat-card *ngFor="let g of grievances">
-  <mat-card-title>{{ g.title }}</mat-card-title>
-  <mat-card-content>
-    <p><b>Category:</b> {{ g.categoryName }}</p>
-    <p><b>Status:</b> {{ g.status }}</p>
-
-    <button mat-button color="primary" (click)="viewResolution(g.id)">
-      View Resolution
-    </button>
-  </mat-card-content>
-</mat-card>
-
-<mat-card *ngIf="selectedResolution" class="resolution-box">
-  <h3>Officer Resolution</h3>
-
-  <p><b>Officer:</b> {{ selectedResolution.officer.name }}</p>
-  <p><b>Remarks:</b> {{ selectedResolution.remarks }}</p>
-
-  <img
-    *ngIf="selectedResolution.proofImagePath"
-    [src]="selectedResolution.proofImagePath"
-    class="proof-img"
-  />
-
-  <div class="actions">
-    <button mat-raised-button color="primary"
-      (click)="approve(selectedResolution.grievance.id)">
-      Approve
-    </button>
-
-    <button mat-raised-button color="warn"
-      (click)="reassign(selectedResolution.grievance.id)">
-      Reassign
-    </button>
+<div class="page-wrapper">
+  
+  <div class="header-section">
+    <h1>Resolution Review</h1>
+    <p class="subtitle">Pending Grievances & Officer Resolutions</p>
   </div>
-</mat-card>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading pending reviews...</p>
+  </div>
+
+  <div class="grievance-grid" *ngIf="!loading && !selectedResolution">
+    <div class="civic-card" *ngFor="let g of grievances">
+      <div class="card-stripe"></div>
+      
+      <div class="card-body">
+        <h3 class="card-title">{{ g.title }}</h3>
+        
+        <div class="info-row">
+          <i class="material-icons">category</i>
+          <span>{{ g.categoryName }}</span>
+        </div>
+        
+        <div class="info-row">
+          <i class="material-icons">hourglass_empty</i>
+          <span class="status-badge">{{ g.status }}</span>
+        </div>
+
+        <div class="card-actions">
+          <button mat-flat-button class="civic-btn" (click)="viewResolution(g.id)">
+            <i class="material-icons">rate_review</i>
+            Review Resolution
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="resolution-detail-container" *ngIf="selectedResolution">
+    <div class="detail-card">
+      <div class="card-stripe"></div>
+      
+      <div class="detail-header">
+        <h2>Officer Resolution Review</h2>
+        <button mat-icon-button (click)="selectedResolution = null">
+          <i class="material-icons">close</i>
+        </button>
+      </div>
+
+      <div class="detail-content">
+        <div class="info-group">
+          <label>Officer Name</label>
+          <div class="value">
+            <i class="material-icons">badge</i> {{ selectedResolution.officer.name }}
+          </div>
+        </div>
+
+        <div class="info-group">
+          <label>Resolution Remarks</label>
+          <div class="value remarks-box">
+            {{ selectedResolution.remarks }}
+          </div>
+        </div>
+
+        <div class="info-group" *ngIf="selectedResolution.proofImagePath">
+          <label>Proof of Work</label>
+          <div class="img-wrapper">
+            <img [src]="selectedResolution.proofImagePath" alt="Proof Image" class="proof-img" />
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <button mat-raised-button class="btn-approve" (click)="approve(selectedResolution.grievance.id)">
+          <i class="material-icons">check_circle</i> Approve
+        </button>
+
+        <button mat-raised-button class="btn-reassign" (click)="reassign(selectedResolution.grievance.id)">
+          <i class="material-icons">assignment_return</i> Reassign
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

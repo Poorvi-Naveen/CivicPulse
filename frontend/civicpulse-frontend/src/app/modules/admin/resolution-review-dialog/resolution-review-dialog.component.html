@@ -1,0 +1,92 @@
+<!-- frontend/civicpulse-frontend/src/app/modules/admin/resolution-review-dialog/resolution-review-dialog.component.html -->
+<div class="brand-stripe"></div>
+
+<div class="dialog-header">
+  <h2 class="title">
+    <mat-icon>rate_review</mat-icon> Resolution Review
+  </h2>
+  <button mat-icon-button (click)="close()" class="close-btn">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<mat-dialog-content class="content-grid">
+  
+  <div class="column issue-column">
+    <div class="column-header">
+      <h3><mat-icon>report_problem</mat-icon> Grievance Details</h3>
+    </div>
+    
+    <div class="details-box">
+      <div class="field-group">
+        <label>Title</label>
+        <p class="highlight">{{ data.grievance.title }}</p>
+      </div>
+
+      <div class="row-group">
+        <div class="field-half">
+          <label>Category</label>
+          <p><mat-icon class="tiny-icon">category</mat-icon> {{ data.grievance.categoryName }}</p>
+        </div>
+        <div class="field-half">
+          <label>Location</label>
+          <p><mat-icon class="tiny-icon">place</mat-icon> {{ data.grievance.location }}</p>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Citizen Description</label>
+        <div class="text-block">
+          {{ data.grievance.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="column resolution-column">
+    <div class="column-header">
+      <h3><mat-icon>verified_user</mat-icon> Officer Resolution</h3>
+    </div>
+
+    <div class="details-box">
+      <div class="row-group">
+        <div class="field-half">
+          <label>Officer Name</label>
+          <p class="officer-name">{{ data.officer.name }}</p>
+        </div>
+        <div class="field-half">
+          <label>Department</label>
+          <p>{{ data.department }}</p>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Resolution Remarks</label>
+        <div class="text-block resolution-text">
+          {{ data.remarks }}
+        </div>
+      </div>
+
+      <div class="field-group" *ngIf="data.proofImagePath">
+        <label>Proof of Work</label>
+        <div class="image-wrapper">
+          <img [src]="getImageUrl(data.proofImagePath)" class="proof-image" alt="Evidence" />
+          <div class="image-overlay">
+            <mat-icon>visibility</mat-icon> Evidence
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="action-footer">
+  <button mat-stroked-button color="warn" (click)="reassign()" class="btn-reassign">
+    <mat-icon>assignment_return</mat-icon> Reassign
+  </button>
+
+  <button mat-raised-button color="primary" (click)="approve()" class="btn-approve">
+    <mat-icon>check_circle</mat-icon> Approve Resolution
+  </button>
+</mat-dialog-actions>

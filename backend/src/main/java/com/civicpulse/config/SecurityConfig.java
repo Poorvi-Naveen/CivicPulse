@@ -28,8 +28,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/categories/**").permitAll() // Allow access to categories
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/api/categories/**").permitAll()
+                .requestMatchers("/h2-console/**","/uploads/**").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

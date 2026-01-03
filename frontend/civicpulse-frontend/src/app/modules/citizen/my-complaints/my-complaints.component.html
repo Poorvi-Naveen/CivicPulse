@@ -1,16 +1,19 @@
-<!-- src/app/modules/citizen/my-complaints/my-complaints.component.html -->
-<div class="my-complaints-container">
-  <div class="page-header">
-    <h1>My Complaints</h1>
-    <button mat-raised-button color="primary" routerLink="/citizen/submit-grievance">
-      <i class="material-icons">add</i> New Complaint
+<!-- frontend/civicpulse-frontend/src/app/modules/citizen/my-complaints/my-complaints.component.html -->
+<div class="page-wrapper">
+  
+  <div class="dashboard-header">
+    <div class="header-text">
+      <h1>My Complaints</h1>
+      <p>Track the status of your reported issues</p>
+    </div>
+    <button mat-raised-button class="new-complaint-btn" routerLink="/citizen/submit-grievance">
+      <i class="material-icons">add_circle</i> Submit New Grievance
     </button>
   </div>
 
-  <div class="filters">
-    <mat-button-toggle-group
-      [value]="statusFilter"
-      (change)="filterByStatus($event.value)">
+  <div class="filter-toolbar">
+    <span class="filter-label">Filter by Status:</span>
+    <mat-button-toggle-group [value]="statusFilter" (change)="filterByStatus($event.value)" class="custom-toggles">
       <mat-button-toggle value="ALL">All</mat-button-toggle>
       <mat-button-toggle value="PENDING">Pending</mat-button-toggle>
       <mat-button-toggle value="IN_PROGRESS">In Progress</mat-button-toggle>
@@ -19,86 +22,58 @@
     </mat-button-toggle-group>
   </div>
 
-  <div *ngIf="loading" class="loading-container">
-    <mat-spinner diameter="50"></mat-spinner>
-    <p>Loading your complaints...</p>
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Fetching records...</p>
   </div>
 
   <div *ngIf="!loading && filteredGrievances.length === 0" class="empty-state">
-    <i class="material-icons large-icon">inbox</i>
+    <div class="empty-icon">
+      <i class="material-icons">inbox</i>
+    </div>
     <h3>No complaints found</h3>
-    <p *ngIf="statusFilter === 'ALL'">
-      You haven't submitted any complaints yet.
-    </p>
-    <p *ngIf="statusFilter !== 'ALL'">
-      No complaints with status "{{ statusFilter }}" found.
-    </p>
-    <button
-      *ngIf="statusFilter === 'ALL'"
-      mat-raised-button
-      color="primary"
-      routerLink="/citizen/submit-grievance">
-      Submit Your First Complaint
-    </button>
+    <p>We couldn't find any records matching your current filter.</p>
   </div>
 
   <div *ngIf="!loading && filteredGrievances.length > 0" class="complaints-grid">
-    <mat-card *ngFor="let grievance of filteredGrievances" class="complaint-card">
+    <mat-card *ngFor="let grievance of filteredGrievances" class="civic-card">
+      
+      <div class="card-stripe"></div>
 
-      <mat-card-header>
-        <mat-card-title>{{ grievance.title }}</mat-card-title>
-        <mat-card-subtitle>
-          <span class="category">{{ grievance.categoryName }}</span>
-          <span class="date">
-            {{ grievance.createdAt | date:'mediumDate' }}
-          </span>
-        </mat-card-subtitle>
-      </mat-card-header>
+      <div class="card-content-wrapper">
+        <div class="card-header-row">
+          <span class="category-badge">{{ grievance.categoryName }}</span>
+          <span class="date-text">{{ grievance.createdAt | date:'mediumDate' }}</span>
+        </div>
 
-      <mat-card-content>
-        <p class="description">{{ grievance.description }}</p>
+        <mat-card-title class="card-title">{{ grievance.title }}</mat-card-title>
+        
+        <p class="card-desc">{{ grievance.description }}</p>
 
-        <div class="meta-info">
-          <div class="location">
-            <i class="material-icons">location_on</i>
-            <span>{{ grievance.location }}</span>
+        <div class="card-meta">
+          <div class="location-row">
+            <i class="material-icons">place</i> {{ grievance.location }}
           </div>
-
-          <div class="status-priority">
-            <mat-chip-listbox>
-
-              <mat-chip-option
-                [color]="getStatusColor(grievance.status)"
-                selected>
-                {{ grievance.status | titlecase }}
-              </mat-chip-option>
-
-              <mat-chip-option
-                [color]="getPriorityColor(grievance.priority)"
-                selected>
-                {{ grievance.priority | titlecase }} Priority
-              </mat-chip-option>
-
-            </mat-chip-listbox>
+          
+          <div class="status-chips">
+            <span class="chip status-{{ grievance.status | lowercase }}">
+              {{ grievance.status | titlecase }}
+            </span>
+            <span class="chip priority-{{ grievance.priority | lowercase }}">
+              {{ grievance.priority | titlecase }} Priority
+            </span>
           </div>
         </div>
-      </mat-card-content>
+      </div>
 
-      <mat-card-actions align="end">
-        <button
-          mat-button
-          color="primary"
-          (click)="viewGrievanceDetails(grievance.id!)">
-          <i class="material-icons">visibility</i> View Details
+      <div class="card-actions">
+        <button mat-button color="primary" (click)="viewGrievanceDetails(grievance.id!)">
+          View Details
         </button>
-
-        <button
-          mat-button
-          color="accent"
-          (click)="trackGrievance(grievance.id!)">
-          <i class="material-icons">track_changes</i> Track
+        <button mat-button class="track-btn" (click)="trackGrievance(grievance.id!)">
+          Track Status
         </button>
-      </mat-card-actions>
+      </div>
 
     </mat-card>
   </div>

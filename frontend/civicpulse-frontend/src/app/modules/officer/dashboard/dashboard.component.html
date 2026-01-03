@@ -1,52 +1,77 @@
-<div class="dashboard-container">
-  <div class="header-strip">
-    <h1>Officer Dashboard</h1>
-    <span class="dept-badge">Dept: Public Works</span>
-  </div>
+<!--frontend/civicpulse-frontend/src/app/modules/officer/dashboard/dashboard.component.html-->
+<div class="dashboard-wrapper">
+  
+  <div class="brand-stripe"></div>
+
+  <header class="dashboard-header">
+    <div class="welcome-text">
+      <h1>Welcome back, {{ officerName }}</h1>
+      <p>Here is your daily overview</p>
+    </div>
+    
+    <div class="dept-badge">
+      <mat-icon>business</mat-icon>
+      <span>{{ department }} Department</span>
+    </div>
+  </header>
 
   <div class="stats-grid">
-    <div class="stat-card orange">
-      <div class="stat-value">5</div>
-      <div class="stat-label">High Priority</div>
+    
+    <div class="stat-card card-blue">
+      <div class="stat-content">
+        <div class="stat-value">{{ totalAssigned }}</div>
+        <div class="stat-label">Total Assigned</div>
+      </div>
+      <div class="stat-icon">
+        <mat-icon>assignment</mat-icon>
+      </div>
     </div>
-    <div class="stat-card blue">
-      <div class="stat-value">12</div>
-      <div class="stat-label">Assigned Today</div>
+
+    <div class="stat-card card-orange">
+      <div class="stat-content">
+        <div class="stat-value">{{ inProgress }}</div>
+        <div class="stat-label">In Progress</div>
+      </div>
+      <div class="stat-icon">
+        <mat-icon>engineering</mat-icon>
+      </div>
     </div>
-    <div class="stat-card green">
-      <div class="stat-value">45</div>
-      <div class="stat-label">Total Resolved</div>
+
+    <div class="stat-card card-red">
+      <div class="stat-content">
+        <div class="stat-value">{{ highPriority }}</div>
+        <div class="stat-label">High Priority</div>
+      </div>
+      <div class="stat-icon">
+        <mat-icon>priority_high</mat-icon>
+      </div>
+    </div>
+
+    <div class="stat-card card-green">
+      <div class="stat-content">
+        <div class="stat-value">{{ awaitingReview }}</div>
+        <div class="stat-label">Submitted</div>
+      </div>
+      <div class="stat-icon">
+        <mat-icon>hourglass_bottom</mat-icon>
+      </div>
     </div>
   </div>
 
-  <div class="table-card">
-    <h3><i class="material-icons">list_alt</i> Assigned Grievances</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Category</th>
-          <th>Location</th>
-          <th>Priority</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#GRN-2024</td>
-          <td>Sanitation</td>
-          <td>Sector 4, Block A</td>
-          <td><span class="priority high">High</span></td>
-          <td><button class="btn-sm">Update</button></td>
-        </tr>
-        <tr>
-          <td>#GRN-2021</td>
-          <td>Roads</td>
-          <td>Market Road</td>
-          <td><span class="priority medium">Medium</span></td>
-          <td><button class="btn-sm">Update</button></td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="action-banner">
+    <div class="banner-content">
+      <div class="banner-icon-circle">
+        <mat-icon>list_alt</mat-icon>
+      </div>
+      <div class="banner-text">
+        <h3>Manage Active Grievances</h3>
+        <p>View your assignment list, update statuses, and submit resolution proofs.</p>
+      </div>
+    </div>
+    
+    <button class="action-btn" routerLink="/officer/assigned-grievances">
+      Go to Assignments <mat-icon>arrow_forward</mat-icon>
+    </button>
   </div>
+
 </div>

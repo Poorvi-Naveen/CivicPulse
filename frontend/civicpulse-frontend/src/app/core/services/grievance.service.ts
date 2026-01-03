@@ -1,3 +1,4 @@
+// frontend/civicpulse-frontend/src/app/core/services/grievance.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +15,7 @@ export interface Grievance {
   location?: string;
   latitude?: number;
   longitude?: number;
-  status: 'PENDING' | 'IN_PROGRESS' | 'RESOLVED' | 'REJECTED';
+  status: 'PENDING' | 'IN_PROGRESS' | 'RESOLUTION_SUBMITTED' | 'RESOLVED' | 'REJECTED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   createdAt?: string;
   updatedAt?: string;
@@ -36,7 +37,6 @@ export class GrievanceService {
 
   constructor(private http: HttpClient) { }
 
-  // Grievance methods
   getAllGrievances(): Observable<Grievance[]> {
     return this.http.get<Grievance[]>(this.apiUrl);
   }
@@ -56,12 +56,11 @@ export class GrievanceService {
   updateGrievanceStatus(grievanceId: number, status: string): Observable<Grievance> {
     return this.http.put<Grievance>(
       `${this.apiUrl}/${grievanceId}/status`,
-      { status } // ✅ JSON object
+      { status } 
     );
   }
 
 
-  // Category methods
   getAllCategories(): Observable<ComplaintCategory[]> {
     return this.http.get<ComplaintCategory[]>(this.categoriesUrl);
   }
@@ -73,21 +72,18 @@ export class GrievanceService {
     return this.http.get<Grievance[]>(`${this.apiUrl}/my`);
   }
 
-  // ADMIN: grievances waiting for resolution review
   getPendingResolutionReviews() {
     return this.http.get<any[]>(
       `${environment.apiUrl}/grievances/pending-review`
     );
   }
 
-  // ADMIN: fetch officer resolution details
   getResolutionDetails(grievanceId: number) {
     return this.http.get<any>(
       `${environment.apiUrl}/assignments/grievance/${grievanceId}/resolution`
     );
   }
 
-  // ADMIN: approve resolution
   approveResolution(grievanceId: number) {
     return this.http.put(
       `${environment.apiUrl}/grievances/${grievanceId}/approve`,
@@ -95,7 +91,6 @@ export class GrievanceService {
     );
   }
 
-  // ADMIN: reassign grievance
   reassignGrievance(grievanceId: number) {
     return this.http.put(
       `${environment.apiUrl}/grievances/${grievanceId}/reassign`,

@@ -1,61 +1,109 @@
-<div class="dashboard-container">
-  <div class="welcome-banner">
-    <h1>Welcome back, Citizen!</h1>
-    <p>Track your complaints and contribute to a better city.</p>
-  </div>
+<!-- frontend/civicpulse-frontend/src/app/modules/citizen/dashboard/dashboard.component.html -->
+<div class="dashboard-wrapper">
+  
+  <div class="brand-stripe"></div>
+
+  <header class="dashboard-header">
+    <div class="header-text">
+      <h1>Welcome back, Citizen!</h1>
+      <p>Together, let's build a better city.</p>
+    </div>
+    <div class="date-badge">
+      <mat-icon>calendar_today</mat-icon>
+      <span>{{ today | date:'mediumDate' }}</span>
+    </div>
+  </header>
 
   <div class="stats-grid">
-    <div class="stat-card blue">
-      <div class="icon-circle"><i class="material-icons">assignment</i></div>
-      <div class="stat-info">
-        <h3>12</h3>
-        <p>Total Complaints</p>
+    
+    <div class="stat-card card-blue">
+      <div class="stat-icon-box">
+        <mat-icon>assignment</mat-icon>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">12</div>
+        <div class="stat-label">Total Reports</div>
       </div>
     </div>
-    <div class="stat-card green">
-      <div class="icon-circle"><i class="material-icons">check_circle</i></div>
-      <div class="stat-info">
-        <h3>8</h3>
-        <p>Resolved</p>
+
+    <div class="stat-card card-green">
+      <div class="stat-icon-box">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Resolved</div>
       </div>
     </div>
-    <div class="stat-card orange">
-      <div class="icon-circle"><i class="material-icons">hourglass_empty</i></div>
-      <div class="stat-info">
-        <h3>4</h3>
-        <p>Pending</p>
+
+    <div class="stat-card card-orange">
+      <div class="stat-icon-box">
+        <mat-icon>hourglass_top</mat-icon>
+      </div>
+      <div class="stat-content">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Pending</div>
       </div>
     </div>
   </div>
 
   <div class="content-grid">
+    
     <div class="action-card" routerLink="/citizen/submit-grievance">
-      <i class="material-icons large-icon">add_a_photo</i>
-      <h2>Report a New Issue</h2>
-      <p>Click here to file a grievance regarding roads, sanitation, etc.</p>
+      <div class="action-content">
+        <div class="icon-pulse">
+          <mat-icon>add_a_photo</mat-icon>
+        </div>
+        <h2>Report a New Issue</h2>
+        <p>Spot a pothole, garbage dump, or broken light? Report it now and track the resolution.</p>
+        <button class="cta-btn">
+          File Complaint <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+      <mat-icon class="bg-icon">campaign</mat-icon>
     </div>
 
     <div class="recent-list-card">
       <div class="card-header">
-        <h2>Recent Activity</h2>
-        <button class="view-all">View All</button>
+        <h3><mat-icon>history</mat-icon> Recent Activity</h3>
+        <button mat-button color="primary" routerLink="/citizen/my-complaints">View All</button>
       </div>
-      <div class="list-item">
-        <div class="status-indicator pending"></div>
-        <div class="details">
-          <span class="title">Pothole on Main St.</span>
-          <span class="date">Submitted: Dec 08, 2025</span>
+
+      <div class="activity-list">
+        <div class="list-item">
+          <div class="status-icon pending">
+            <mat-icon>schedule</mat-icon>
+          </div>
+          <div class="item-details">
+            <span class="item-title">Pothole on Main St.</span>
+            <span class="item-date">Submitted: Dec 08, 2025</span>
+          </div>
+          <span class="badge pending">Pending</span>
         </div>
-        <span class="badge pending">Pending</span>
-      </div>
-      <div class="list-item">
-        <div class="status-indicator resolved"></div>
-        <div class="details">
-          <span class="title">Street Light Repair</span>
-          <span class="date">Submitted: Nov 20, 2025</span>
+
+        <div class="list-item">
+          <div class="status-icon resolved">
+            <mat-icon>check</mat-icon>
+          </div>
+          <div class="item-details">
+            <span class="item-title">Street Light Repair</span>
+            <span class="item-date">Submitted: Nov 20, 2025</span>
+          </div>
+          <span class="badge resolved">Resolved</span>
         </div>
-        <span class="badge resolved">Resolved</span>
+
+        <div class="list-item">
+          <div class="status-icon resolved">
+            <mat-icon>check</mat-icon>
+          </div>
+          <div class="item-details">
+            <span class="item-title">Garbage Collection</span>
+            <span class="item-date">Submitted: Nov 15, 2025</span>
+          </div>
+          <span class="badge resolved">Resolved</span>
+        </div>
       </div>
     </div>
+
   </div>
 </div>

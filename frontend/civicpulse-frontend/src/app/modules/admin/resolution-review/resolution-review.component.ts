@@ -1,16 +1,21 @@
-//frontend/civicpulse-frontend/src/app/modules/admin/resolution-review/resolution-review.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GrievanceService } from '../../../core/services/grievance.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button'; // Added for styling
+import { MatIconModule } from '@angular/material/icon'; // Added for styling
+import { ResolutionReviewDialogComponent } from '../resolution-review-dialog/resolution-review-dialog.component';
+
 
 @Component({
   selector: 'app-resolution-review',
   standalone: true,
   templateUrl: './resolution-review.component.html',
   styleUrls: ['./resolution-review.component.scss'],
-  imports: [CommonModule, MatCardModule]
+  // Added MatButtonModule and MatIconModule for the new UI elements
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatDialogModule, MatSnackBarModule]
 })
 export class ResolutionReviewComponent implements OnInit {
 
@@ -20,8 +25,9 @@ export class ResolutionReviewComponent implements OnInit {
 
   constructor(
     private grievanceService: GrievanceService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadPendingReviews();
@@ -42,9 +48,30 @@ export class ResolutionReviewComponent implements OnInit {
 
   viewResolution(grievanceId: number) {
     this.grievanceService.getResolutionDetails(grievanceId).subscribe(res => {
-      this.selectedResolution = res;
+
+      const dialogRef = this.dialog.open(
+        ResolutionReviewDialogComponent,
+        {
+          width: '900px',
+          maxHeight: '90vh',
+          data: res
+        }
+      );
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) return;
+
+        if (result.action === 'APPROVE') {
+          this.approve(grievanceId);
+        }
+
+        if (result.action === 'REASSIGN') {
+          this.reassign(grievanceId);
+        }
+      });
     });
   }
+
 
   approve(grievanceId: number) {
     this.grievanceService.approveResolution(grievanceId).subscribe(() => {
