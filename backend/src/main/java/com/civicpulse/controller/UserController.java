@@ -24,4 +24,10 @@ public class UserController {
         List<User> users = userService.getUsersByRole(role);
         return ResponseEntity.ok(users);
     }
+
+    /*@GetMapping("/officers")
+    public ResponseEntity<List<User>> getAllOfficers() {
+        return ResponseEntity.ok(userService.getUsersByRole("OFFICER"));
+    }*/
+
 }

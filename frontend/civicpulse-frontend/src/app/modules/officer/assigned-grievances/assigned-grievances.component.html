@@ -15,7 +15,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    
+
     <div class="filter-group">
       <label>Priority:</label>
       <mat-form-field appearance="outline">
@@ -90,31 +90,50 @@
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
+
         <td mat-cell *matCellDef="let grievance">
-          <button mat-icon-button color="primary" (click)="viewGrievanceDetails(grievance.id!)" matTooltip="View Details">
+
+          <!-- View details -->
+          <button mat-icon-button color="primary" matTooltip="View Details"
+            (click)="viewGrievanceDetails(grievance.id!)">
             <mat-icon>visibility</mat-icon>
           </button>
-          
-          <button mat-icon-button color="accent" [matMenuTriggerFor]="statusMenu" matTooltip="Update Status">
-            <mat-icon>update</mat-icon>
-          </button>
-          
-          <mat-menu #statusMenu="matMenu">
-            <button mat-menu-item (click)="updateGrievanceStatus(grievance.id!, 'IN_PROGRESS')">
-              <mat-icon>play_circle</mat-icon>
-              <span>Mark In Progress</span>
-            </button>
-            <button mat-menu-item (click)="updateGrievanceStatus(grievance.id!, 'RESOLVED')">
-              <mat-icon>check_circle</mat-icon>
-              <span>Mark Resolved</span>
-            </button>
-            <button mat-menu-item (click)="updateGrievanceStatus(grievance.id!, 'REJECTED')">
-              <mat-icon>cancel</mat-icon>
-              <span>Reject</span>
-            </button>
-          </mat-menu>
+
+          <!-- Resolution submission UI (ONLY for IN_PROGRESS) -->
+          <div class="resolution-form" *ngIf="grievance.status === 'IN_PROGRESS'">
+
+            <mat-card class="resolution-card">
+
+              <mat-card-title>Submit Resolution</mat-card-title>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <textarea matInput rows="3" placeholder="Describe how the grievance was resolved"
+                  [(ngModel)]="remarksText">
+      </textarea>
+              </mat-form-field>
+
+              <div class="file-upload">
+                <label>Upload proof image *</label>
+                <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+              </div>
+
+              <button mat-raised-button color="primary" class="submit-btn" (click)="openSubmitResolution(grievance)">
+                Submit for Admin Review
+              </button>
+
+            </mat-card>
+
+          </div>
+
+
+          <!-- Status hint -->
+          <span class="status-hint" *ngIf="grievance.status === 'RESOLUTION_SUBMITTED'">
+            Waiting for admin review
+          </span>
+
         </td>
       </ng-container>
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

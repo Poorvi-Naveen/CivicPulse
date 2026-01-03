@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "grievances")
@@ -53,10 +54,11 @@ public class Grievance {
     private List<GrievanceImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "grievance", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<OfficerAssignment> assignments = new ArrayList<>();
 
     public enum Status {
-        PENDING, IN_PROGRESS, RESOLVED, REJECTED
+        PENDING, IN_PROGRESS, RESOLUTION_SUBMITTED, RESOLVED, REJECTED
     }
 
     public enum Priority {

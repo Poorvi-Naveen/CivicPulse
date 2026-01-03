@@ -17,6 +17,7 @@ import { MatSpinner } from '@angular/material/progress-spinner';
 import { AdminRoutingModule } from './admin-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AssignOfficerComponent } from './assign-officer/assign-officer.component';
+import { ResolutionReviewComponent } from './resolution-review/resolution-review.component';
 
 @NgModule({
   declarations: [], // Remove all component declarations
@@ -37,7 +38,8 @@ import { AssignOfficerComponent } from './assign-officer/assign-officer.componen
     MatSpinner,
     AdminRoutingModule,
     DashboardComponent, // Import standalone components
-    AssignOfficerComponent
+    AssignOfficerComponent,
+    ResolutionReviewComponent
   ]
 })
 export class AdminModule { }

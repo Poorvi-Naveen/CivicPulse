@@ -1,3 +1,4 @@
+//frontend/civicpulse-frontend/src/app/modules/admin/assign-officer/assign-officer.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -22,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OfficerAssignmentService } from '../../../core/services/officer-assignment.service';
 
 @Component({
   selector: 'app-assign-officer',
@@ -52,6 +54,7 @@ export class AssignOfficerComponent implements OnInit {
   selectedGrievance: Grievance | null = null;
   assignForm: FormGroup;
   filteredOfficers: any[] = [];
+  filteredGrievances: Grievance[] = [];
 
   departments: string[] = [
     'Public Works',
@@ -67,7 +70,8 @@ export class AssignOfficerComponent implements OnInit {
     private grievanceService: GrievanceService,
     private userService: UserService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private assignmentService: OfficerAssignmentService
   ) {
     this.assignForm = this.fb.group({
       priority: [null, Validators.required],
@@ -98,18 +102,29 @@ export class AssignOfficerComponent implements OnInit {
     });
   }
 
-  loadOfficers(): void {
-    this.userService.getUsersByRole('OFFICER').subscribe({
-      next: data => {
-        this.officers = data;
-        this.filteredOfficers = data; // default
+  loadAssignedGrievances(): void {
+    const officerId = JSON.parse(localStorage.getItem('currentUser')!).id;
+
+    this.assignmentService.getAssignmentsByOfficer(officerId).subscribe({
+      next: (assignments) => {
+
+        this.grievances = assignments.map(a => ({
+          ...a.grievance,
+          assignmentId: a.id,
+          deadline: a.deadline
+        }));
+
+        this.filteredGrievances = [...this.grievances];
+        this.loading = false;
       },
       error: err => {
-        this.snackBar.open('Failed to load officers', 'Close', { duration: 3000 });
+        this.loading = false;
+        this.snackBar.open('Failed to load assigned grievances', 'Close', { duration: 3000 });
         console.error(err);
       }
     });
   }
+
 
   selectGrievance(grievance: Grievance): void {
     this.selectedGrievance = grievance;
@@ -122,20 +137,28 @@ export class AssignOfficerComponent implements OnInit {
       return;
     }
 
-    this.grievanceService
-      .updateGrievanceStatus(this.selectedGrievance.id, 'IN_PROGRESS')
-      .subscribe({
-        next: () => {
-          this.snackBar.open('Officer assigned successfully', 'Close', { duration: 3000 });
-          this.loadPendingGrievances();
-          this.selectedGrievance = null;
-        },
-        error: err => {
-          this.snackBar.open('Failed to update grievance', 'Close', { duration: 3000 });
-          console.error(err);
-        }
-      });
+    const form = this.assignForm.value;
+
+    this.assignmentService.assignOfficer(
+      this.selectedGrievance.id,
+      form.officerId,
+      form.department,
+      form.priority,
+      form.deadlineDays,
+      form.remarks
+    ).subscribe({
+      next: () => {
+        this.snackBar.open('Officer assigned successfully', 'Close', { duration: 3000 });
+        this.loadPendingGrievances();
+        this.selectedGrievance = null;
+      },
+      error: err => {
+        console.error(err);
+        this.snackBar.open('Failed to assign officer', 'Close', { duration: 3000 });
+      }
+    });
   }
+
 
   getStatusColor(status: string): string {
     switch (status) {
@@ -177,12 +200,23 @@ export class AssignOfficerComponent implements OnInit {
       default: return '';
     }
   }
-  onDepartmentChange(department: string): void {
+  onDepartmentChange(department: string) {
     this.filteredOfficers = this.officers.filter(
       officer => officer.department === department
     );
 
     this.assignForm.patchValue({ officerId: null });
+  }
+  loadOfficers(): void {
+    this.userService.getUsersByRole('OFFICER').subscribe({
+      next: (data) => {
+        this.officers = data;
+      },
+      error: (err) => {
+        console.error(err);
+        this.snackBar.open('Failed to load officers', 'Close', { duration: 3000 });
+      }
+    });
   }
 
 }

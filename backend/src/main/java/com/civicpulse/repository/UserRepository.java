@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
-    
-    @Query("SELECT DISTINCT u FROM User u JOIN u.roles r WHERE r.name = :roleName")
+
+    @Query("SELECT DISTINCT u FROM User u JOIN u.roles r WHERE r.name = :roleName OR r.name = CONCAT('ROLE_', :roleName)")
     List<User> findByRole(@Param("roleName") String roleName);
 }

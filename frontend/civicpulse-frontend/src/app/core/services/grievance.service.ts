@@ -73,4 +73,34 @@ export class GrievanceService {
     return this.http.get<Grievance[]>(`${this.apiUrl}/my`);
   }
 
+  // ADMIN: grievances waiting for resolution review
+  getPendingResolutionReviews() {
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/grievances/pending-review`
+    );
+  }
+
+  // ADMIN: fetch officer resolution details
+  getResolutionDetails(grievanceId: number) {
+    return this.http.get<any>(
+      `${environment.apiUrl}/assignments/grievance/${grievanceId}/resolution`
+    );
+  }
+
+  // ADMIN: approve resolution
+  approveResolution(grievanceId: number) {
+    return this.http.put(
+      `${environment.apiUrl}/grievances/${grievanceId}/approve`,
+      {}
+    );
+  }
+
+  // ADMIN: reassign grievance
+  reassignGrievance(grievanceId: number) {
+    return this.http.put(
+      `${environment.apiUrl}/grievances/${grievanceId}/reassign`,
+      {}
+    );
+  }
+
 }

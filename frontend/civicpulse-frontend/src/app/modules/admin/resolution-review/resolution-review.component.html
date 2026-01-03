@@ -1,0 +1,41 @@
+<!-- frontend/civicpulse-frontend/src/app/modules/admin/resolution-review/resolution-review.component.html -->
+<h2>Resolution Review</h2>
+
+<div *ngIf="loading">Loading...</div>
+
+<mat-card *ngFor="let g of grievances">
+  <mat-card-title>{{ g.title }}</mat-card-title>
+  <mat-card-content>
+    <p><b>Category:</b> {{ g.categoryName }}</p>
+    <p><b>Status:</b> {{ g.status }}</p>
+
+    <button mat-button color="primary" (click)="viewResolution(g.id)">
+      View Resolution
+    </button>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="selectedResolution" class="resolution-box">
+  <h3>Officer Resolution</h3>
+
+  <p><b>Officer:</b> {{ selectedResolution.officer.name }}</p>
+  <p><b>Remarks:</b> {{ selectedResolution.remarks }}</p>
+
+  <img
+    *ngIf="selectedResolution.proofImagePath"
+    [src]="selectedResolution.proofImagePath"
+    class="proof-img"
+  />
+
+  <div class="actions">
+    <button mat-raised-button color="primary"
+      (click)="approve(selectedResolution.grievance.id)">
+      Approve
+    </button>
+
+    <button mat-raised-button color="warn"
+      (click)="reassign(selectedResolution.grievance.id)">
+      Reassign
+    </button>
+  </div>
+</mat-card>

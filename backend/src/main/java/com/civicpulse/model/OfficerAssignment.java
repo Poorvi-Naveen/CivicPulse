@@ -42,6 +42,9 @@ public class OfficerAssignment {
     @Column(nullable = false)
     private Grievance.Priority priority;
 
+    @Column(name = "proof_image_path")
+    private String proofImagePath;
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -115,4 +118,11 @@ public class OfficerAssignment {
         this.deadline = deadline;
     }
 
+    public String getProofImagePath() {
+        return proofImagePath;
+    }
+
+    public void setProofImagePath(String proofImagePath) {
+        this.proofImagePath = proofImagePath;
+    }
 }

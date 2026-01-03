@@ -1,3 +1,4 @@
+// frontend/civicpulse-frontend/src/app/shared/sidebar/sidebar.component.ts
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -52,6 +53,7 @@ export class SidebarComponent implements OnInit {
         { label: 'All Grievances', link: '/admin/all-grievances', icon: 'view_list' },
         { label: 'Manage Users', link: '/admin/users', icon: 'people' },
         { label: 'Assign Officers', link: '/admin/assign-officer', icon: 'badge' },
+        { label: 'Resolution Reviews', link: '/admin/resolution-review', icon: 'gavel' },
         { label: 'Reports', link: '/admin/reports', icon: 'summarize' }
       ];
     }

@@ -5,10 +5,12 @@ import com.civicpulse.dto.GrievanceDTO;
 import com.civicpulse.dto.StatusUpdateRequest;
 import com.civicpulse.model.Grievance;
 import com.civicpulse.model.User;
+import com.civicpulse.repository.GrievanceRepository;
 import com.civicpulse.service.GrievanceService;
 import com.civicpulse.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +23,13 @@ public class GrievanceController {
 
     private final GrievanceService grievanceService;
     private final UserService userService;
+    private final GrievanceRepository grievanceRepository;
 
-    public GrievanceController(GrievanceService grievanceService, UserService userService) {
+    public GrievanceController(GrievanceService grievanceService, UserService userService,
+            GrievanceRepository grievanceRepository) {
         this.grievanceService = grievanceService;
         this.userService = userService;
+        this.grievanceRepository = grievanceRepository;
     }
 
     @PostMapping
@@ -91,4 +96,38 @@ public class GrievanceController {
         return ResponseEntity.ok(
                 grievanceService.getGrievancesByUser(user));
     }
+
+    @PutMapping("/{grievanceId}/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> approveResolution(@PathVariable Long grievanceId) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        grievance.setStatus(Grievance.Status.RESOLVED);
+        grievanceRepository.save(grievance);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{grievanceId}/reassign")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> reassignGrievance(@PathVariable Long grievanceId) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        grievance.setStatus(Grievance.Status.PENDING);
+        grievanceRepository.save(grievance);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/pending-review")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Grievance>> getPendingReviewGrievances() {
+        return ResponseEntity.ok(
+                grievanceRepository.findByStatus(Grievance.Status.RESOLUTION_SUBMITTED));
+    }
+
 }

@@ -25,6 +25,10 @@ export class SignupComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
+    if (this.registerData.role === 'OFFICER' && !this.registerData.department) {
+    alert('Please select a department');
+    return;
+  }
     this.authService.signup(this.registerData).subscribe({
       next: () => this.router.navigate(['/auth/login']),
       error: () => alert('Created account successfully! Please login.')
