@@ -1,0 +1,90 @@
+<!-- frontend/civicpulse-frontend/src/app/modules/admin/all-grievances/all-grievances.component.html -->
+<div class="page-wrapper">
+
+  <div class="header-section">
+    <div class="header-content">
+      <h1><mat-icon>gavel</mat-icon> All Grievances</h1>
+      <p>Review, approve, or reject citizen complaints.</p>
+    </div>
+    
+    <div class="filter-box">
+      <mat-form-field appearance="outline" class="dense-form">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [(value)]="statusFilter" (selectionChange)="applyFilter()">
+          <mat-option value="ALL">Show All</mat-option>
+          <mat-option value="PENDING">Pending Review</mat-option>
+          <mat-option value="IN_PROGRESS">Approved (In Progress)</mat-option>
+          <mat-option value="REJECTED">Rejected</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>filter_list</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading records...</p>
+  </div>
+
+  <div *ngIf="!loading && filtered.length === 0" class="empty-state">
+    <mat-icon>inbox</mat-icon>
+    <h3>No records found</h3>
+    <p>Try changing the filter or check back later.</p>
+  </div>
+
+  <div *ngIf="!loading && filtered.length > 0" class="grievance-grid">
+    <mat-card *ngFor="let grievance of filtered" class="civic-card">
+      
+      <div class="card-stripe" [ngClass]="grievance.status | lowercase"></div>
+
+      <div class="card-content-wrapper">
+        
+        <div class="card-top-row">
+          <span class="meta-date">ID: #{{ grievance.id }}</span>
+          <span class="status-chip" [ngClass]="grievance.status | lowercase">
+            {{ grievance.status === 'IN_PROGRESS' ? 'Approved' : (grievance.status | titlecase) }}
+          </span>
+        </div>
+
+        <mat-card-title class="card-title">{{ grievance.title }}</mat-card-title>
+        <p class="card-desc">{{ grievance.description }}</p>
+
+        <div class="meta-info">
+          <div class="meta-item">
+            <mat-icon>category</mat-icon>
+            <span>{{ grievance.categoryName }}</span>
+          </div>
+          <div class="meta-item">
+            <mat-icon>place</mat-icon>
+            <span>{{ grievance.location }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="grievance.status === 'REJECTED'" class="rejection-box">
+          <div class="box-title"><mat-icon>block</mat-icon> Rejection Reason:</div>
+          <div class="box-text">{{ grievance.adminRemark }}</div>
+        </div>
+
+        <div *ngIf="grievance.status === 'PENDING'" class="action-zone">
+          <div class="zone-divider"></div>
+          
+          <button mat-flat-button class="btn-approve" (click)="approve(grievance.id!)">
+            <mat-icon>check</mat-icon> Approve
+          </button>
+
+          <div class="reject-group">
+            <mat-form-field appearance="outline" class="reject-input">
+              <mat-label>Remark (Required)</mat-label>
+              <input matInput [(ngModel)]="rejectionRemark" placeholder="Reason for rejection...">
+            </mat-form-field>
+            <button mat-stroked-button color="warn" class="btn-reject" (click)="reject(grievance.id!)">
+              Reject
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </mat-card>
+  </div>
+
+</div>

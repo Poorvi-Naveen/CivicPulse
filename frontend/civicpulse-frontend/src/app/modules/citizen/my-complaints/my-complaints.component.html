@@ -1,6 +1,6 @@
 <!-- frontend/civicpulse-frontend/src/app/modules/citizen/my-complaints/my-complaints.component.html -->
 <div class="page-wrapper">
-  
+
   <div class="dashboard-header">
     <div class="header-text">
       <h1>My Complaints</h1>
@@ -37,7 +37,7 @@
 
   <div *ngIf="!loading && filteredGrievances.length > 0" class="complaints-grid">
     <mat-card *ngFor="let grievance of filteredGrievances" class="civic-card">
-      
+
       <div class="card-stripe"></div>
 
       <div class="card-content-wrapper">
@@ -47,14 +47,14 @@
         </div>
 
         <mat-card-title class="card-title">{{ grievance.title }}</mat-card-title>
-        
+
         <p class="card-desc">{{ grievance.description }}</p>
 
         <div class="card-meta">
           <div class="location-row">
             <i class="material-icons">place</i> {{ grievance.location }}
           </div>
-          
+
           <div class="status-chips">
             <span class="chip status-{{ grievance.status | lowercase }}">
               {{ grievance.status | titlecase }}
@@ -74,7 +74,10 @@
           Track Status
         </button>
       </div>
-
+      <div *ngIf="grievance.status === 'REJECTED'" class="rejection-box">
+        <strong>Admin Remark:</strong>
+        <p>{{ grievance.adminRemark }}</p>
+      </div>
     </mat-card>
   </div>
 </div>

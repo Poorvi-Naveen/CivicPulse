@@ -55,6 +55,10 @@ public class OfficerAssignmentService {
         User officer = userRepository.findById(officerId)
                 .orElseThrow(() -> new RuntimeException("Officer not found"));
 
+        if (grievance.getStatus() != Grievance.Status.APPROVED) {
+            throw new IllegalStateException(
+                    "Grievance must be approved before assignment");
+        }
         grievance.setPriority(priority);
         grievance.setStatus(Grievance.Status.IN_PROGRESS);
 

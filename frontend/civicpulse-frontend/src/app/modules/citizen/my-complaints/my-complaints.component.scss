@@ -188,3 +188,11 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   color: #666;
   gap: 15px;
 }
+
+.rejection-box {
+  margin-top: 12px;
+  padding: 10px;
+  border-left: 4px solid #e53935;
+  background: #fff5f5;
+  font-size: 14px;
+}

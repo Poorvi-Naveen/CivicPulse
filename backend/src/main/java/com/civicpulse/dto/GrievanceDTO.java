@@ -116,4 +116,15 @@ public class GrievanceDTO {
     public void setPriority(Grievance.Priority priority) {
         this.priority = priority;
     }
+
+    private String adminRemark;
+
+    public String getAdminRemark() {
+        return adminRemark;
+    }
+
+    public void setAdminRemark(String adminRemark) {
+        this.adminRemark = adminRemark;
+    }
+
 }

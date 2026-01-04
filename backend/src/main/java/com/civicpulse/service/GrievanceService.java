@@ -123,6 +123,36 @@ public class GrievanceService {
         dto.setLongitude(grievance.getLongitude());
         dto.setStatus(grievance.getStatus());
         dto.setPriority(grievance.getPriority());
+        dto.setAdminRemark(grievance.getAdminRemark());
         return dto;
     }
+
+    @Transactional
+    public void approveGrievance(Long grievanceId) {
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        if (grievance.getStatus() != Grievance.Status.PENDING) {
+            throw new IllegalStateException("Only pending grievances can be approved");
+        }
+
+        grievance.setStatus(Grievance.Status.APPROVED);
+        grievance.setAdminRemark(null);
+        grievanceRepository.save(grievance);
+    }
+
+    @Transactional
+    public void rejectGrievance(Long grievanceId, String remark) {
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        if (grievance.getStatus() != Grievance.Status.PENDING) {
+            throw new IllegalStateException("Only pending grievances can be rejected");
+        }
+
+        grievance.setStatus(Grievance.Status.REJECTED);
+        grievance.setAdminRemark(remark);
+        grievanceRepository.save(grievance);
+    }
+
 }

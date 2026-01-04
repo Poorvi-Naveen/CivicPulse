@@ -19,6 +19,7 @@ export interface Grievance {
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   createdAt?: string;
   updatedAt?: string;
+  adminRemark?: string;
 }
 
 export interface ComplaintCategory {
@@ -56,7 +57,7 @@ export class GrievanceService {
   updateGrievanceStatus(grievanceId: number, status: string): Observable<Grievance> {
     return this.http.put<Grievance>(
       `${this.apiUrl}/${grievanceId}/status`,
-      { status } 
+      { status }
     );
   }
 
@@ -97,5 +98,13 @@ export class GrievanceService {
       {}
     );
   }
+  rejectGrievance(grievanceId: number, remark: string) {
+    return this.http.put(
+      `${this.apiUrl}/${grievanceId}/reject`,
+      remark,
+      { responseType: 'text' }
+    );
+  }
+
 
 }

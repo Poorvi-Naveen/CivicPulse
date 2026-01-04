@@ -45,8 +45,7 @@ public class GrievanceController {
     }
 
     @GetMapping
-    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") // Comment out or remove this
-    // for now
+    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") 
     public ResponseEntity<List<GrievanceDTO>> getAllGrievances() {
         List<GrievanceDTO> grievances = grievanceService.getAllGrievances();
         return ResponseEntity.ok(grievances);
@@ -65,8 +64,7 @@ public class GrievanceController {
      */
 
     @GetMapping("/status/{status}")
-    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") // Comment out or remove this
-    // for now
+    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") 
     public ResponseEntity<List<GrievanceDTO>> getGrievancesByStatus(@PathVariable Grievance.Status status) {
         List<GrievanceDTO> grievances = grievanceService.getGrievancesByStatus(status);
         return ResponseEntity.ok(grievances);
@@ -104,9 +102,10 @@ public class GrievanceController {
         Grievance grievance = grievanceRepository.findById(grievanceId)
                 .orElseThrow(() -> new RuntimeException("Grievance not found"));
 
-        grievance.setStatus(Grievance.Status.RESOLVED);
-        grievanceRepository.save(grievance);
+        grievance.setStatus(Grievance.Status.APPROVED);
+        grievance.setAdminRemark(null);
 
+        grievanceRepository.save(grievance);
         return ResponseEntity.ok().build();
     }
 
@@ -128,6 +127,22 @@ public class GrievanceController {
     public ResponseEntity<List<Grievance>> getPendingReviewGrievances() {
         return ResponseEntity.ok(
                 grievanceRepository.findByStatus(Grievance.Status.RESOLUTION_SUBMITTED));
+    }
+
+    @PutMapping("/{grievanceId}/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> rejectGrievance(
+            @PathVariable Long grievanceId,
+            @RequestBody String remark) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        grievance.setStatus(Grievance.Status.REJECTED);
+        grievance.setAdminRemark(remark);
+
+        grievanceRepository.save(grievance);
+        return ResponseEntity.ok().build();
     }
 
 }

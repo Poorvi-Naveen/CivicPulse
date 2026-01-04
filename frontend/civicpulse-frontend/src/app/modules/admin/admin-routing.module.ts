@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AssignOfficerComponent } from './assign-officer/assign-officer.component';
 import { ResolutionReviewComponent } from './resolution-review/resolution-review.component';
+import { AllGrievancesComponent } from './all-grievances/all-grievances.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'assign-officer', component: AssignOfficerComponent },
-  { path: 'resolution-review', component: ResolutionReviewComponent }
+  { path: 'resolution-review', component: ResolutionReviewComponent },
+  { path: 'all-grievances', component: AllGrievancesComponent }
 
 ];
 

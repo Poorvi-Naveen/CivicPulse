@@ -58,7 +58,7 @@ public class Grievance {
     private List<OfficerAssignment> assignments = new ArrayList<>();
 
     public enum Status {
-        PENDING, IN_PROGRESS, RESOLUTION_SUBMITTED, RESOLVED, REJECTED
+        PENDING, APPROVED, IN_PROGRESS, RESOLUTION_SUBMITTED, RESOLVED, REJECTED
     }
 
     public enum Priority {
@@ -75,6 +75,9 @@ public class Grievance {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    @Column(name = "admin_remark", length = 1000)
+    private String adminRemark;
 
     // Getters and Setters
     public Long getId() {
@@ -195,5 +198,13 @@ public class Grievance {
 
     public void setAssignments(List<OfficerAssignment> assignments) {
         this.assignments = assignments;
+    }
+
+    public String getAdminRemark() {
+        return adminRemark;
+    }
+
+    public void setAdminRemark(String adminRemark) {
+        this.adminRemark = adminRemark;
     }
 }

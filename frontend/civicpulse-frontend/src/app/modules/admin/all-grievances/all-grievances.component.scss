@@ -1,0 +1,231 @@
+/* frontend/civicpulse-frontend/src/app/modules/admin/all-grievances/all-grievances.component.scss */
+
+$primary-dark: #003366;
+$primary-blue: #00509e;
+$bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent 70%), 
+              radial-gradient(at bottom right, rgba(200, 220, 255, 0.3), transparent 70%),
+              #f8f8f8;
+
+.page-wrapper {
+  background: $bg-gradient;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+/* --- Header Section --- */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  .header-content {
+    h1 {
+      margin: 0;
+      color: $primary-dark;
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    p { margin: 5px 0 0 36px; color: #666; font-size: 1rem; }
+  }
+}
+
+.filter-box {
+  background: white;
+  padding: 5px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+  .dense-form {
+    width: 200px;
+    margin-bottom: -1.25em; /* Remove extra bottom spacing from mat-form-field */
+  }
+}
+
+/* --- Grid System --- */
+.grievance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+/* --- Card Styling --- */
+.civic-card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+}
+
+.card-stripe {
+  height: 5px;
+  width: 100%;
+  
+  &.pending { background: #ff9800; } /* Orange */
+  &.in_progress { background: #2e7d32; } /* Green */
+  &.rejected { background: #d32f2f; } /* Red */
+}
+
+.card-content-wrapper {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Row (ID & Status) */
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .meta-date {
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: 600;
+  }
+
+  .status-chip {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+
+    &.pending { background: #fff3e0; color: #e65100; }
+    &.in_progress { background: #e8f5e9; color: #2e7d32; }
+    &.rejected { background: #ffebee; color: #c62828; }
+  }
+}
+
+/* Main Text */
+.card-title {
+  color: $primary-dark;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.card-desc {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Pushes footer down */
+}
+
+/* Metadata Icons */
+.meta-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #777;
+
+    mat-icon { font-size: 18px; width: 18px; height: 18px; color: $primary-blue; }
+  }
+}
+
+/* --- Action Zone (Pending Only) --- */
+.action-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-approve {
+  width: 100%;
+  background-color: #2e7d32;
+  color: white;
+  
+  mat-icon { margin-right: 8px; }
+}
+
+.reject-group {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+
+  .reject-input {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; } /* Compact input */
+  }
+
+  .btn-reject {
+    height: 56px; /* Match standard form field height */
+    line-height: 56px;
+    padding: 0 20px;
+  }
+}
+
+/* --- Rejected Info Box --- */
+.rejection-box {
+  background: #fff5f5;
+  border: 1px solid #ffcdd2;
+  border-radius: 6px;
+  padding: 12px;
+  
+  .box-title {
+    color: #c62828;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    mat-icon { font-size: 16px; width: 16px; height: 16px; }
+  }
+
+  .box-text {
+    color: #333;
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+}
+
+/* --- Utilities --- */
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 60px;
+  color: #666;
+
+  mat-icon { font-size: 48px; width: 48px; height: 48px; color: #ccc; margin-bottom: 15px; }
+  .spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid $primary-blue;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
