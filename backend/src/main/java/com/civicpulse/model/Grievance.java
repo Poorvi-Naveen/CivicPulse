@@ -58,7 +58,7 @@ public class Grievance {
     private List<OfficerAssignment> assignments = new ArrayList<>();
 
     public enum Status {
-        PENDING, APPROVED, IN_PROGRESS, RESOLUTION_SUBMITTED, RESOLVED, REJECTED
+        PENDING, APPROVED, IN_PROGRESS, RESOLUTION_SUBMITTED, RESOLVED, REJECTED, REOPENED
     }
 
     public enum Priority {
@@ -78,6 +78,12 @@ public class Grievance {
 
     @Column(name = "admin_remark", length = 1000)
     private String adminRemark;
+
+    @Column(name = "citizen_feedback", length = 1000)
+    private String citizenFeedback;
+
+    @Column(name = "reopen_count")
+    private Integer reopenCount = 0;
 
     // Getters and Setters
     public Long getId() {
@@ -206,5 +212,21 @@ public class Grievance {
 
     public void setAdminRemark(String adminRemark) {
         this.adminRemark = adminRemark;
+    }
+
+    public String getCitizenFeedback() {
+        return citizenFeedback;
+    }
+
+    public void setCitizenFeedback(String citizenFeedback) {
+        this.citizenFeedback = citizenFeedback;
+    }
+
+    public Integer getReopenCount() {
+        return reopenCount == null ? 0 : reopenCount;
+    }
+
+    public void setReopenCount(Integer reopenCount) {
+        this.reopenCount = reopenCount;
     }
 }

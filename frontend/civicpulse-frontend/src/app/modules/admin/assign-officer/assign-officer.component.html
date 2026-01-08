@@ -9,6 +9,21 @@
     </div>
   </div>
 
+  <div *ngFor="let g of grievances" class="grievance-item" ...>
+  
+  <div class="item-status-stripe" [ngClass]="g.priority | lowercase"></div>
+  
+  <div class="item-content">
+    <div class="item-header">
+      <span class="category">{{ g.categoryName }}</span>
+      
+      <span *ngIf="g.reopenCount && g.reopenCount > 0" class="reopen-tag">
+        <mat-icon inline>refresh</mat-icon> Reopened ({{g.reopenCount}})
+      </span>
+      
+      <span class="date">{{ g.createdAt | date:'shortDate' }}</span>
+    </div>
+
   <div class="console-layout">
     
     <div class="inbox-panel">

@@ -1,3 +1,4 @@
+// backend/src/main/java/com/civicpulse/service/GrievanceService.java
 package com.civicpulse.service;
 
 import com.civicpulse.dto.GrievanceDTO;
@@ -26,12 +27,6 @@ public class GrievanceService {
         this.categoryRepository = categoryRepository;
     }
 
-    /*
-     * =========================
-     * READ OPERATIONS
-     * =========================
-     */
-
     public List<GrievanceDTO> getAllGrievances() {
         return grievanceRepository.findAll()
                 .stream()
@@ -52,12 +47,6 @@ public class GrievanceService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-
-    /*
-     * =========================
-     * WRITE OPERATIONS
-     * =========================
-     */
 
     @Transactional
     public GrievanceDTO createGrievance(GrievanceDTO grievanceDTO, User user) {
@@ -97,12 +86,6 @@ public class GrievanceService {
         return convertToDTO(grievanceRepository.save(grievance));
     }
 
-    /*
-     * =========================
-     * DTO MAPPING
-     * =========================
-     */
-
     private GrievanceDTO convertToDTO(Grievance grievance) {
         GrievanceDTO dto = new GrievanceDTO();
         dto.setId(grievance.getId());
@@ -124,6 +107,8 @@ public class GrievanceService {
         dto.setStatus(grievance.getStatus());
         dto.setPriority(grievance.getPriority());
         dto.setAdminRemark(grievance.getAdminRemark());
+        dto.setCitizenFeedback(grievance.getCitizenFeedback());
+        dto.setReopenCount(grievance.getReopenCount());
         return dto;
     }
 
@@ -132,8 +117,9 @@ public class GrievanceService {
         Grievance grievance = grievanceRepository.findById(grievanceId)
                 .orElseThrow(() -> new RuntimeException("Grievance not found"));
 
-        if (grievance.getStatus() != Grievance.Status.PENDING) {
-            throw new IllegalStateException("Only pending grievances can be approved");
+        if (grievance.getStatus() != Grievance.Status.PENDING &&
+    grievance.getStatus() != Grievance.Status.REOPENED) {
+            throw new IllegalStateException("Only pending or reopened grievances can be approved");
         }
 
         grievance.setStatus(Grievance.Status.APPROVED);
@@ -152,6 +138,53 @@ public class GrievanceService {
 
         grievance.setStatus(Grievance.Status.REJECTED);
         grievance.setAdminRemark(remark);
+        grievanceRepository.save(grievance);
+    }
+
+    public void reopenComplaint(Long grievanceId, String remark) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        if (!"RESOLVED".equals(grievance.getStatus().name())) {
+            throw new RuntimeException("Only resolved complaints can be reopened");
+        }
+
+        grievance.setStatus(Grievance.Status.REOPENED);
+        grievance.setCitizenFeedback(remark);
+        grievance.setReopenCount(grievance.getReopenCount() + 1);
+        grievanceRepository.save(grievance);
+    }
+
+    @Transactional
+    public void approveReopenedGrievance(Long grievanceId) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        if (grievance.getStatus() != Grievance.Status.REOPENED) {
+            throw new IllegalStateException("Only reopened grievances can be approved");
+        }
+
+        grievance.setStatus(Grievance.Status.APPROVED);
+        grievance.setAdminRemark(null);
+
+        grievanceRepository.save(grievance);
+    }
+
+    @Transactional
+    public void rejectReopenedGrievance(Long grievanceId, String remark) {
+
+        Grievance grievance = grievanceRepository.findById(grievanceId)
+                .orElseThrow(() -> new RuntimeException("Grievance not found"));
+
+        if (grievance.getStatus() != Grievance.Status.REOPENED) {
+            throw new IllegalStateException("Only reopened grievances can be rejected");
+        }
+
+        grievance.setStatus(Grievance.Status.REJECTED);
+        grievance.setAdminRemark(remark);
+
         grievanceRepository.save(grievance);
     }
 

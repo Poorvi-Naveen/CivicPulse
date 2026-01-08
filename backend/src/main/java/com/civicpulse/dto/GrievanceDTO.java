@@ -20,6 +20,9 @@ public class GrievanceDTO {
     private Grievance.Status status;
     private Grievance.Priority priority;
 
+    private String citizenFeedback;
+    private int reopenCount;
+
     // getters & setters
     public Long getId() {
         return id;
@@ -127,4 +130,16 @@ public class GrievanceDTO {
         this.adminRemark = adminRemark;
     }
 
+    public String getCitizenFeedback() {
+        return citizenFeedback;
+    }
+    public void setCitizenFeedback(String citizenFeedback) {
+        this.citizenFeedback = citizenFeedback;
+    }
+    public int getReopenCount() {
+        return reopenCount;
+    }
+    public void setReopenCount(int reopenCount) {
+        this.reopenCount = reopenCount;
+    }
 }

@@ -67,12 +67,20 @@ export class AllGrievancesComponent implements OnInit {
         : this.grievances.filter(g => g.status === this.statusFilter);
   }
 
-  approve(grievanceId: number): void {
-    this.grievanceService.updateGrievanceStatus(grievanceId, 'IN_PROGRESS')
+  approve(grievanceId: Grievance): void {
+    if (grievanceId.status === 'REOPENED') {
+      // Endpoint for approving a reopen
+      this.grievanceService.approveReopen(grievanceId.id!).subscribe(() => {
+        this.snackBar.open('Reopen request approved. Moved to Assignment Console.', 'Close', { duration: 3000 });
+        this.loadGrievances();
+      });
+    } else {
+    this.grievanceService.updateGrievanceStatus(grievanceId.id!, 'IN_PROGRESS')
       .subscribe(() => {
         this.snackBar.open('Grievance approved', 'Close', { duration: 2000 });
         this.loadGrievances();
       });
+    }
   }
 
   reject(grievanceId: number): void {

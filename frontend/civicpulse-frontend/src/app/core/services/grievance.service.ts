@@ -15,11 +15,13 @@ export interface Grievance {
   location?: string;
   latitude?: number;
   longitude?: number;
-  status: 'PENDING' | 'IN_PROGRESS' | 'RESOLUTION_SUBMITTED' | 'RESOLVED' | 'REJECTED';
+  status: 'PENDING' | 'APPROVED' | 'IN_PROGRESS' | 'RESOLUTION_SUBMITTED' | 'RESOLVED' | 'REJECTED' | 'REOPENED';
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
   createdAt?: string;
   updatedAt?: string;
   adminRemark?: string;
+  citizenFeedback?: string;
+  reopenCount?: number;
 }
 
 export interface ComplaintCategory {
@@ -105,6 +107,28 @@ export class GrievanceService {
       { responseType: 'text' }
     );
   }
+  reopenComplaint(grievanceId: number, remark: string) {
+    return this.http.put(
+      `${this.apiUrl}/${grievanceId}/reopen`,
+      remark,
+      {}
+    );
+  }
 
-
+  getReopenedGrievances(): Observable<Grievance[]> {
+    return this.http.get<Grievance[]>(`${this.apiUrl}/reopened`);
+  }
+  approveReopen(grievanceId: number) {
+    return this.http.put(
+      `${this.apiUrl}/${grievanceId}/reopen/approve`,
+      {}
+    );
+  }
+  rejectReopen(grievanceId: number, remark: string) {
+    return this.http.put(
+      `${this.apiUrl}/${grievanceId}/reopen/reject`,
+      remark,
+      { responseType: 'text' }
+    );
+  }
 }

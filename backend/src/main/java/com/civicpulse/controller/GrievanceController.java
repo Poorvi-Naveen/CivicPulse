@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/grievances")
@@ -37,7 +37,7 @@ public class GrievanceController {
             @RequestBody GrievanceDTO grievanceDTO,
             Authentication authentication) {
 
-        String email = authentication.getName(); // from JWT
+        String email = authentication.getName();
         User user = userService.findByEmail(email);
 
         GrievanceDTO created = grievanceService.createGrievance(grievanceDTO, user);
@@ -45,7 +45,7 @@ public class GrievanceController {
     }
 
     @GetMapping
-    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") 
+    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')")
     public ResponseEntity<List<GrievanceDTO>> getAllGrievances() {
         List<GrievanceDTO> grievances = grievanceService.getAllGrievances();
         return ResponseEntity.ok(grievances);
@@ -64,7 +64,7 @@ public class GrievanceController {
      */
 
     @GetMapping("/status/{status}")
-    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')") 
+    // @PreAuthorize("hasAnyRole('ADMIN', 'OFFICER')")
     public ResponseEntity<List<GrievanceDTO>> getGrievancesByStatus(@PathVariable Grievance.Status status) {
         List<GrievanceDTO> grievances = grievanceService.getGrievancesByStatus(status);
         return ResponseEntity.ok(grievances);
@@ -102,7 +102,11 @@ public class GrievanceController {
         Grievance grievance = grievanceRepository.findById(grievanceId)
                 .orElseThrow(() -> new RuntimeException("Grievance not found"));
 
-        grievance.setStatus(Grievance.Status.APPROVED);
+        if (grievance.getStatus() == Grievance.Status.RESOLUTION_SUBMITTED) {
+            grievance.setStatus(Grievance.Status.RESOLVED);
+        } else {
+            grievance.setStatus(Grievance.Status.APPROVED);
+        }
         grievance.setAdminRemark(null);
 
         grievanceRepository.save(grievance);
@@ -143,6 +147,41 @@ public class GrievanceController {
 
         grievanceRepository.save(grievance);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/reopen")
+    public ResponseEntity<Map<String, String>> reopenComplaint(@PathVariable Long id,
+            @RequestBody(required = false) String remark) {
+        grievanceService.reopenComplaint(id, remark);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Complaint reopened");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/reopened")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<GrievanceDTO>> getReopenedGrievances() {
+        return ResponseEntity.ok(
+                grievanceService.getGrievancesByStatus(Grievance.Status.REOPENED));
+    }
+
+    @PutMapping("/{id}/reopen/approve")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> approveReopenedGrievance(@PathVariable Long id) {
+        grievanceService.approveReopenedGrievance(id);
+        return ResponseEntity.ok(Map.of("message", "Reopened grievance approved"));
+    }
+
+    @PutMapping("/{id}/reopen/reject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> rejectReopenedGrievance(
+            @PathVariable Long id,
+            @RequestBody String remark) {
+
+        grievanceService.rejectReopenedGrievance(id, remark);
+        return ResponseEntity.ok(Map.of("message", "Reopened grievance rejected"));
     }
 
 }

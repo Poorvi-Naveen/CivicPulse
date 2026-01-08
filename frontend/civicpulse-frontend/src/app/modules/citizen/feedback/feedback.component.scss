@@ -1,0 +1,148 @@
+/* frontend/civicpulse-frontend/src/app/modules/citizen/feedback/feedback.component.scss */
+
+$primary-blue: #00509e;
+$star-gold: #ffb400;
+
+.feedback-card {
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  background: white;
+}
+
+.brand-stripe {
+  height: 5px;
+  background: linear-gradient(to right, #FF9933 33.3%, white 33.3%, white 66.6%, #138808 66.6%);
+  width: 100%;
+}
+
+mat-card-header {
+  margin-bottom: 15px;
+  mat-card-title { font-size: 1.25rem; color: #333; }
+  mat-card-subtitle { margin-top: 4px; }
+}
+
+.info-summary {
+  display: flex;
+  justify-content: space-between;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 700;
+    }
+
+    .value {
+      font-weight: 600;
+      color: #333;
+    }
+  }
+}
+
+.status-chip {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  
+  &.resolved { color: #2e7d32; background: #e8f5e9; }
+  &.rejected { color: #c62828; background: #ffebee; }
+}
+
+.divider { margin: 20px 0; }
+
+.rating-section {
+  text-align: center;
+  margin-bottom: 25px;
+
+  h3 { color: #555; font-size: 1rem; margin-bottom: 15px; }
+
+  .stars-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .star-btn {
+    width: 48px;
+    height: 48px;
+    
+    mat-icon {
+      font-size: 36px;
+      width: 36px;
+      height: 36px;
+      color: #e0e0e0; 
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    &.active mat-icon {
+      color: $star-gold;
+      transform: scale(1.1);
+    }
+  }
+
+  .rating-label {
+    margin-top: 10px;
+    font-weight: 600;
+    color: $primary-blue;
+    min-height: 20px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.reopen-alert {
+  margin-top: 20px;
+  border: 1px solid #ffcdd2;
+  background: #fffafa;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .alert-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #c62828;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}
+
+.success-box {
+  text-align: center;
+  padding: 30px;
+  
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    background: #e8f5e9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    
+    mat-icon { font-size: 30px; color: #2e7d32; }
+  }
+
+  h3 { margin: 0 0 10px 0; color: #2e7d32; }
+  p { color: #666; margin: 0; }
+}

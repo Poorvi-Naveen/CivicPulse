@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard-citizen.component';
 import { SubmitGrievanceComponent } from './submit-grievance/submit-grievance.component';
 import { MyComplaintsComponent } from './my-complaints/my-complaints.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'submit-grievance', component: SubmitGrievanceComponent },
-  { path: 'my-complaints', component: MyComplaintsComponent }
+  { path: 'my-complaints', component: MyComplaintsComponent },
+  { path: 'feedback', component: FeedbackComponent }
 ];
 
 @NgModule({

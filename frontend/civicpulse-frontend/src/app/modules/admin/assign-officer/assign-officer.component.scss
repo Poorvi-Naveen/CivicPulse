@@ -1,6 +1,5 @@
 /* frontend/civicpulse-frontend/src/app/modules/admin/assign-officer/assign-officer.component.scss */
 
-// Theme Variables
 $primary-dark: #003366;
 $primary-blue: #00509e;
 $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent 70%), 
@@ -11,7 +10,7 @@ $border-color: #e0e0e0;
 :host {
   display: block;
   height: 100vh;
-  overflow: hidden; /* Prevent body scroll, handle inside panels */
+  overflow: hidden;
 }
 
 .page-wrapper {
@@ -21,7 +20,6 @@ $border-color: #e0e0e0;
   flex-direction: column;
 }
 
-/* --- Header --- */
 .header-section {
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -47,27 +45,25 @@ $border-color: #e0e0e0;
   }
 }
 
-/* --- Console Layout (Split Screen) --- */
 .console-layout {
   display: flex;
   flex: 1;
-  overflow: hidden; /* Important for independent scrolling */
+  overflow: hidden;
   max-width: 1600px;
   width: 100%;
   margin: 0 auto;
 }
 
-/* --- Left Panel: Inbox --- */
 .inbox-panel {
-  flex: 0 0 450px; /* Fixed width */
+  flex: 0 0 450px; 
   border-right: 1px solid $border-color;
   background: rgba(255,255,255,0.6);
   display: flex;
   flex-direction: column;
   
   @media (max-width: 900px) {
-    flex: 1; /* Full width on smaller screens, hiding right panel effectively */
-    display: block; /* Logic handles showing/hiding usually via router, but for simple split: */
+    flex: 1; 
+    display: block;
   }
 
   .panel-header {
@@ -190,7 +186,6 @@ $border-color: #e0e0e0;
   }
 }
 
-/* --- Right Panel: Action Console --- */
 .action-panel {
   flex: 1;
   background: white;
@@ -198,10 +193,9 @@ $border-color: #e0e0e0;
   overflow-y: auto;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Align form to top */
+  align-items: flex-start;
 }
 
-/* Placeholder */
 .placeholder-content {
   text-align: center;
   margin-top: 100px;
@@ -219,7 +213,6 @@ $border-color: #e0e0e0;
   p { max-width: 300px; margin: 10px auto; }
 }
 
-/* Form Container */
 .form-container {
   width: 100%;
   max-width: 600px;
@@ -284,7 +277,6 @@ $border-color: #e0e0e0;
   }
 }
 
-/* Utilities */
 .loading-state, .empty-state {
   padding: 40px;
   text-align: center;
@@ -306,4 +298,45 @@ $border-color: #e0e0e0;
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
+}
+
+.reopen-badge, .reopen-tag {
+  background-color: #ff9800; 
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+  
+  mat-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+  }
+}
+
+.feedback-box {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 4px;
+
+  .box-title {
+    color: #e65100;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  
+  .box-text {
+    font-style: italic;
+    color: #333;
+  }
 }

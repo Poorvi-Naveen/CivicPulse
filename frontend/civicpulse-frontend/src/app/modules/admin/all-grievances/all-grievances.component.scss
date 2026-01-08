@@ -12,7 +12,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   padding: 30px;
 }
 
-/* --- Header Section --- */
 .header-section {
   display: flex;
   justify-content: space-between;
@@ -43,18 +42,16 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
 
   .dense-form {
     width: 200px;
-    margin-bottom: -1.25em; /* Remove extra bottom spacing from mat-form-field */
+    margin-bottom: -1.25em;
   }
 }
 
-/* --- Grid System --- */
 .grievance-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
   gap: 24px;
 }
 
-/* --- Card Styling --- */
 .civic-card {
   border-radius: 12px;
   overflow: hidden;
@@ -85,7 +82,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   flex-direction: column;
 }
 
-/* Top Row (ID & Status) */
 .card-top-row {
   display: flex;
   justify-content: space-between;
@@ -111,7 +107,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* Main Text */
 .card-title {
   color: $primary-dark;
   font-size: 1.2rem;
@@ -125,10 +120,9 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 20px;
-  flex-grow: 1; /* Pushes footer down */
+  flex-grow: 1; 
 }
 
-/* Metadata Icons */
 .meta-info {
   display: flex;
   gap: 20px;
@@ -147,7 +141,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* --- Action Zone (Pending Only) --- */
 .action-zone {
   display: flex;
   flex-direction: column;
@@ -175,13 +168,12 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 
   .btn-reject {
-    height: 56px; /* Match standard form field height */
+    height: 56px; 
     line-height: 56px;
     padding: 0 20px;
   }
 }
 
-/* --- Rejected Info Box --- */
 .rejection-box {
   background: #fff5f5;
   border: 1px solid #ffcdd2;
@@ -207,7 +199,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* --- Utilities --- */
 .loading-state, .empty-state {
   text-align: center;
   padding: 60px;
@@ -228,4 +219,45 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.reopen-badge, .reopen-tag {
+  background-color: #ff9800; // Orange
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: 8px;
+  
+  mat-icon {
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+  }
+}
+
+.feedback-box {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff9800;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 4px;
+
+  .box-title {
+    color: #e65100;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  
+  .box-text {
+    font-style: italic;
+    color: #333;
+  }
 }

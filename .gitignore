@@ -4,6 +4,7 @@ backend/*.jar
 backend/.mvn/wrapper/maven-wrapper.jar
 backend/logs/
 backend/**/*.log
+backend/uploads/
 
 # ===== Frontend (Angular) =====
 frontend/**/node_modules/

@@ -57,6 +57,7 @@ export class AssignOfficerComponent implements OnInit {
   assignForm: FormGroup;
   filteredOfficers: any[] = [];
   filteredGrievances: Grievance[] = [];
+  reopenedGrievances: Grievance[] = [];
 
   departments: string[] = [
     'Public Works',
@@ -91,9 +92,11 @@ export class AssignOfficerComponent implements OnInit {
   }
 
   loadPendingGrievances(): void {
-    this.grievanceService.getGrievancesByStatus('PENDING').subscribe({
+    this.grievanceService.getAllGrievances().subscribe({
       next: data => {
-        this.grievances = data;
+        this.grievances = data.filter(g =>
+          g.status === 'PENDING' || g.status === 'APPROVED'
+        );
         this.loading = false;
       },
       error: err => {
@@ -102,6 +105,7 @@ export class AssignOfficerComponent implements OnInit {
         console.error(err);
       }
     });
+
   }
 
   loadAssignedGrievances(): void {
@@ -220,5 +224,4 @@ export class AssignOfficerComponent implements OnInit {
       }
     });
   }
-
 }
