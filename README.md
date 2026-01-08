@@ -16,8 +16,8 @@ It provides role-based access for **Citizens**, **Officers**, and **Admins**, en
 ## Project Structure
 
 civicPulse/<br>
-├── backend/ # Spring Boot backend<br>
-├── frontend/ # Angular frontend<br>
+├── backend/   (Spring Boot backend)<br>
+├── frontend/  (Angular frontend)<br>
 ├── docker-compose.yml<br>
 ├── README.md<br>
 ├── .gitignore<br>
@@ -27,7 +27,7 @@ civicPulse/<br>
 
 ## Prerequisites
 
-Ensure the following are installed on your system:
+Check the following installed on the system:
 
 - Java 17 or above
 - Node.js (LTS recommended)
@@ -94,7 +94,7 @@ The application supports role-based access:
 
 JWT-based authentication is implemented for secure access.
 
-## Sample API Endpoints
+## Some API Endpoints
 
 | Method | Endpoint                    | Description             |
 | ------ | --------------------------- | ----------------------- |
@@ -118,5 +118,6 @@ JWT-based authentication is implemented for secure access.
 
 Poorvi Naveen\
 poorvinaveen31@gmail.com\
-Full Stack Developer & Infosys Springboard Virtual Internship Intern\
+Full Stack Developer\
+Infosys Springboard Virtual Internship Intern\
 CivicPulse Project
