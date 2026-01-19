@@ -9,6 +9,7 @@ import com.civicpulse.repository.ComplaintCategoryRepository;
 import com.civicpulse.repository.GrievanceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.civicpulse.repository.FeedbackRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +19,15 @@ public class GrievanceService {
 
     private final GrievanceRepository grievanceRepository;
     private final ComplaintCategoryRepository categoryRepository;
+    private final FeedbackRepository feedbackRepository;
 
     public GrievanceService(
             GrievanceRepository grievanceRepository,
-            ComplaintCategoryRepository categoryRepository) {
+            ComplaintCategoryRepository categoryRepository, FeedbackRepository feedbackRepository) {
 
         this.grievanceRepository = grievanceRepository;
         this.categoryRepository = categoryRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     public List<GrievanceDTO> getAllGrievances() {
@@ -154,6 +157,9 @@ public class GrievanceService {
         grievance.setCitizenFeedback(remark);
         grievance.setReopenCount(grievance.getReopenCount() + 1);
         grievanceRepository.save(grievance);
+        if (feedbackRepository.existsByGrievanceId(grievanceId)) {
+            feedbackRepository.deleteByGrievanceId(grievanceId);
+        }
     }
 
     @Transactional

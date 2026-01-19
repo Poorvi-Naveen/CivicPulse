@@ -179,7 +179,7 @@ export class AssignedGrievancesComponent implements OnInit {
         },
         error: () => {
           this.snackBar.open(
-            'Failed to submit resolution',
+            'Failed to submit resolution. Image size must be under 5MB.',
             'Close',
             { duration: 3000 }
           );

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.civicpulse.model.Grievance;
 import com.civicpulse.model.OfficerAssignment;
 import com.civicpulse.service.OfficerAssignmentService;
+import com.civicpulse.dto.ChartData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/assignments")
@@ -92,4 +94,9 @@ public class OfficerAssignmentController {
                 assignmentService.getLatestAssignmentByGrievance(grievanceId));
     }
 
+    @GetMapping("/officer/{officerId}/stats")
+    @PreAuthorize("hasRole('OFFICER') or hasRole('ADMIN')")
+    public ResponseEntity<Map<String, List<ChartData>>> getOfficerStats(@PathVariable Long officerId) {
+        return ResponseEntity.ok(assignmentService.getOfficerDashboardStats(officerId));
+    }
 }

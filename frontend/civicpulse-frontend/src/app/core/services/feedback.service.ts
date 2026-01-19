@@ -20,7 +20,10 @@ export class FeedbackService {
     return this.http.post(this.baseUrl, payload);
   }
 
-  getFeedbackForGrievance(grievanceId: number): Observable<any> {
+  getFeedbackForGrievance(grievanceId: number | undefined): Observable<any> {
+    if (grievanceId === undefined) {
+      throw new Error('Grievance ID is required');
+    }
     return this.http.get(`${this.baseUrl}/grievance/${grievanceId}`);
   }
 }

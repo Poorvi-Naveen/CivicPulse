@@ -1,6 +1,6 @@
 <!--frontend/civicpulse-frontend/src/app/modules/officer/dashboard/dashboard.component.html-->
 <div class="dashboard-wrapper">
-  
+
   <div class="brand-stripe"></div>
 
   <header class="dashboard-header">
@@ -8,7 +8,7 @@
       <h1>Welcome back, {{ officerName }}</h1>
       <p>Here is your daily overview</p>
     </div>
-    
+
     <div class="dept-badge">
       <mat-icon>business</mat-icon>
       <span>{{ department }} Department</span>
@@ -16,7 +16,7 @@
   </header>
 
   <div class="stats-grid">
-    
+
     <div class="stat-card card-blue">
       <div class="stat-content">
         <div class="stat-value">{{ totalAssigned }}</div>
@@ -58,6 +58,51 @@
     </div>
   </div>
 
+  <div class="dashboard-wrapper">
+
+    <div class="charts-section">
+      <h2>Performance Analytics</h2>
+
+      <div class="charts-grid">
+
+        <div class="chart-card">
+          <h3>My Grievance Status</h3>
+
+          <div class="chart-container">
+            <ngx-charts-pie-chart *ngIf="statusPieData.length > 0" [results]="statusPieData" [scheme]="colorScheme"
+              [legend]="true" legendTitle="Status" [labels]="true" [doughnut]="true">
+            </ngx-charts-pie-chart>
+            <div *ngIf="statusPieData.length === 0" style="text-align:center; padding-top: 50px;">
+              No data available
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3>Avg Resolution Time (Hours)</h3>
+
+          <div class="chart-container">
+            <ngx-charts-bar-vertical [results]="barData" [scheme]="colorScheme" [xAxis]="true" [yAxis]="true"
+              [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="Category" yAxisLabel="Hours">
+            </ngx-charts-bar-vertical>
+          </div>
+        </div>
+
+        <div class="chart-card full-width">
+          <h3>My Action Zones</h3>
+
+          <div class="chart-container">
+            <ngx-charts-heat-map [results]="heatMapData" [scheme]="colorScheme" [legend]="true" legendTitle="Intensity"
+              [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="Location"
+              yAxisLabel="Count">
+            </ngx-charts-heat-map>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <div class="action-banner">
     <div class="banner-content">
       <div class="banner-icon-circle">
@@ -68,7 +113,7 @@
         <p>View your assignment list, update statuses, and submit resolution proofs.</p>
       </div>
     </div>
-    
+
     <button class="action-btn" routerLink="/officer/assigned-grievances">
       Go to Assignments <mat-icon>arrow_forward</mat-icon>
     </button>

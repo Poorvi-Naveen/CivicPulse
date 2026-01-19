@@ -8,5 +8,5 @@ import java.util.*;
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     boolean existsByGrievanceId(Long grievanceId);
     Optional<Feedback> findByGrievanceId(Long grievanceId);
-
+    void deleteByGrievanceId(Long grievanceId);
 }

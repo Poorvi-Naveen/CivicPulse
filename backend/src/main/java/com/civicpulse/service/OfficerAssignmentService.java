@@ -1,6 +1,7 @@
 // backend/src/main/java/com/civicpulse/service/OfficerAssignmentService.java
 package com.civicpulse.service;
 
+import com.civicpulse.dto.ChartData;
 import com.civicpulse.model.Grievance;
 import com.civicpulse.model.OfficerAssignment;
 import com.civicpulse.model.User;
@@ -16,7 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OfficerAssignmentService {
@@ -121,4 +125,31 @@ public class OfficerAssignmentService {
                 .orElseThrow(() -> new RuntimeException("Resolution not found"));
     }
 
+    public Map<String, List<ChartData>> getOfficerDashboardStats(Long officerId) {
+        Map<String, List<ChartData>> stats = new HashMap<>();
+
+        List<OfficerAssignment> assignments = assignmentRepository.findByOfficerId(officerId);
+
+        Map<String, Long> statusCounts = assignments.stream()
+                .map(a -> a.getGrievance().getStatus().name())
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+
+        List<ChartData> statusData = statusCounts.entrySet().stream()
+                .map(entry -> new ChartData() {
+                    public String getName() {
+                        return entry.getKey();
+                    }
+
+                    public Double getValue() {
+                        return entry.getValue().doubleValue();
+                    }
+                })
+                .collect(Collectors.toList());
+
+        stats.put("byStatus", statusData);
+        stats.put("byLocation", assignmentRepository.findAssignmentsByLocation(officerId));
+        stats.put("performance", assignmentRepository.findOfficerPerformance(officerId));
+
+        return stats;
+    }
 }

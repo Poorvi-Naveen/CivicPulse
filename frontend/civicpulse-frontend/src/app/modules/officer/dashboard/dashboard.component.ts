@@ -5,11 +5,13 @@ import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { NgxChartsModule, PieChartModule, BarChartModule, HeatMapModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatIconModule, RouterModule, NgxChartsModule, PieChartModule, BarChartModule, HeatMapModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss' // Note: styleUrl is singular in Angular 17+
 })
@@ -23,10 +25,22 @@ export class DashboardComponent implements OnInit {
   officerName = '';
   department = '';
 
+  statusPieData: any[] = [];
+  barData: any[] = [];
+  heatMapData: any[] = [];
+
+  colorScheme: Color = {
+    name: 'officerScheme',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+  };
+
   constructor(
     private assignmentService: OfficerAssignmentService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('currentUser')!);
@@ -34,6 +48,7 @@ export class DashboardComponent implements OnInit {
       this.officerName = user.name;
       this.department = user.department;
       this.loadDashboardStats(user.id);
+      this.loadChartData(user.id);
     }
   }
 
@@ -56,6 +71,23 @@ export class DashboardComponent implements OnInit {
         g => g.priority === 'HIGH' || g.priority === 'URGENT'
       ).length;
     });
+  }
+
+  loadChartData(officerId: number) {
+    this.http.get<any>(`http://localhost:8080/api/assignments/officer/${officerId}/stats`)
+      .subscribe({
+        next: (data) => {
+          console.log('Stats Data Received:', data);
+          this.statusPieData = data.byStatus || [];
+          this.barData = data.performance;
+
+          this.heatMapData = [{
+            "name": "My Zones",
+            "series": data.byLocation
+          }];
+        },
+        error: (err) => console.error('Error fetching stats:', err)
+      });
   }
 
   logout() {

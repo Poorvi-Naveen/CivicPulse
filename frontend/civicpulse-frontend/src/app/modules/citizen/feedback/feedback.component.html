@@ -1,63 +1,107 @@
 <!-- frontend/civicpulse-frontend/src/app/modules/citizen/feedback/feedback.component.html -->
-<mat-card class="feedback-card">
-  <div class="brand-stripe"></div>
+<div class="page-wrapper">
 
-  <mat-card-header>
-    <mat-card-title>Resolution Feedback</mat-card-title>
-    <mat-card-subtitle>Rate your experience with our service</mat-card-subtitle>
-  </mat-card-header>
+  <div class="header-section">
+    <div class="brand-stripe"></div>
+    <div class="header-content">
+      <h1><mat-icon>thumb_up_alt</mat-icon> Resolution Feedback</h1>
+      <p>Rate your experience. Your feedback helps us improve city services.</p>
+    </div>
+  </div>
 
-  <mat-card *ngFor="let grievance of resolvedGrievances" class="feedback-card">
+  <div *ngIf="resolvedGrievances.length === 0" class="empty-state">
+    <div class="icon-circle">
+      <mat-icon>rate_review</mat-icon>
+    </div>
+    <h3>No Pending Feedback</h3>
+    <p>You have no resolved grievances to rate at this time.</p>
+  </div>
 
-    <mat-card-header>
-      <mat-card-title>Complaint #{{ grievance.complaintId || grievance.id }}</mat-card-title>
-      <mat-card-subtitle>Status: {{ grievance.status }}</mat-card-subtitle>
-    </mat-card-header>
+  <div class="feedback-grid">
+    <mat-card *ngFor="let grievance of resolvedGrievances" class="feedback-card">
+      
+      <div class="card-status-stripe" [class.completed]="successMap[grievance.id]" [class.reopened]="reopenedMap[grievance.id]"></div>
 
-    <mat-card-content>
-
-      <div *ngIf="reopenedMap[grievance.id]" class="success-box warning-box">
-        <h3><mat-icon>schedule</mat-icon> Reopen Requested</h3>
-        <p>This grievance has been sent to the Admin for review.</p>
-      </div>
-
-      <div *ngIf="successMap[grievance.id]" class="success-box">
-        <h3>Thank you!</h3>
-        <p>Your feedback has been recorded.</p>
-      </div>
-
-      <div *ngIf="!successMap[grievance.id] && !reopenedMap[grievance.id]">
-
-        <div class="stars-container">
-          <button mat-icon-button *ngFor="let star of [1,2,3,4,5]" (click)="setRating(grievance.id, star)">
-            <mat-icon>
-              {{ star <= (ratingMap[grievance.id] || 0) ? 'star' : 'star_border' }} </mat-icon>
-          </button>
+      <div class="card-content">
+        
+        <div class="grievance-header">
+          <div class="id-badge">Complaint #{{ grievance.complaintId || grievance.id }}</div>
+          <div class="status-badge">
+            <mat-icon>check_circle</mat-icon> Resolved
+          </div>
         </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Comments / Reopen Reason</mat-label>
-          <textarea matInput [(ngModel)]="commentsMap[grievance.id]" placeholder="Tell us why you are unsatisfied..."
-            required> </textarea>
-          <mat-hint *ngIf="ratingMap[grievance.id] <= 2">
-            Reason required for reopening
-          </mat-hint>
-        </mat-form-field>
+        <h3 class="grievance-title">{{ grievance.title }}</h3>
 
-        <div *ngIf="ratingMap[grievance.id] <= 2 && ratingMap[grievance.id] > 0">
-          <button mat-stroked-button color="warn" (click)="reopenComplaint(grievance.id)">
-            Reopen Complaint
-          </button>
+        <mat-divider class="divider"></mat-divider>
+
+        <div *ngIf="reopenedMap[grievance.id]" class="state-box warning">
+          <div class="state-icon"><mat-icon>update</mat-icon></div>
+          <h3>Reopen Requested</h3>
+          <p>This grievance has been sent back to the Admin for review.</p>
+        </div>
+
+        <div *ngIf="successMap[grievance.id]" class="state-box success">
+          <div class="state-icon"><mat-icon>sentiment_satisfied_alt</mat-icon></div>
+          <h3>Thank You!</h3>
+          <p>Your feedback has been recorded successfully.</p>
+        </div>
+
+        <div *ngIf="!successMap[grievance.id] && !reopenedMap[grievance.id]" class="input-section">
+          
+          <div class="rating-label">How was the resolution?</div>
+          
+          <div class="stars-container">
+            <button mat-icon-button *ngFor="let star of [1,2,3,4,5]" 
+                    (click)="setRating(grievance.id, star)"
+                    class="star-btn"
+                    [class.active]="star <= (ratingMap[grievance.id] || 0)">
+              <mat-icon>{{ star <= (ratingMap[grievance.id] || 0) ? 'star' : 'star_border' }}</mat-icon>
+            </button>
+          </div>
+          <div class="rating-text" *ngIf="ratingMap[grievance.id]">
+            {{ ratingMap[grievance.id] <= 2 ? 'Dissatisfied' : 'Satisfied' }}
+          </div>
+
+          <div class="comment-box">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>
+                {{ (ratingMap[grievance.id] && ratingMap[grievance.id] <= 2) ? 'Reason for Reopening *' : 'Comments (Optional)' }}
+              </mat-label>
+              <textarea matInput 
+                        [(ngModel)]="commentsMap[grievance.id]" 
+                        rows="3"
+                        [placeholder]="(ratingMap[grievance.id] && ratingMap[grievance.id] <= 2) ? 'Please explain why the resolution was not satisfactory...' : 'Any additional feedback...'">
+              </textarea>
+              <mat-hint *ngIf="ratingMap[grievance.id] <= 2" class="warn-hint">
+                <mat-icon>info</mat-icon> A reason is required to reopen.
+              </mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="actions">
+            
+            <button *ngIf="ratingMap[grievance.id] <= 2 && ratingMap[grievance.id] > 0" 
+                    mat-flat-button 
+                    color="warn" 
+                    class="btn-reopen"
+                    (click)="reopenComplaint(grievance.id)">
+              <mat-icon>replay</mat-icon> Reopen Complaint
+            </button>
+
+            <button *ngIf="!ratingMap[grievance.id] || ratingMap[grievance.id] > 2"
+                    mat-raised-button 
+                    color="primary" 
+                    class="btn-submit"
+                    (click)="submitFeedback(grievance)"
+                    [disabled]="!ratingMap[grievance.id]">
+              Submit Feedback
+            </button>
+          </div>
+
         </div>
 
       </div>
-
-    </mat-card-content>
-
-    <mat-card-actions align="end" *ngIf="!successMap[grievance.id] && !reopenedMap[grievance.id]">
-      <button mat-raised-button color="primary" (click)="submitFeedback(grievance)"
-        [disabled]="!ratingMap[grievance.id]">
-        Submit Feedback
-      </button>
-    </mat-card-actions>
-  </mat-card>
+    </mat-card>
+  </div>
+</div>

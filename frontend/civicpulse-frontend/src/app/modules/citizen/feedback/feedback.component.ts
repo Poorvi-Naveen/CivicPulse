@@ -1,5 +1,5 @@
 // frontend/civicpulse-frontend/src/app/modules/citizen/feedback/feedback.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FeedbackService } from '../../../core/services/feedback.service';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
+
 
 @Component({
   selector: 'app-feedback',
@@ -28,7 +29,7 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './feedback.component.html',
   styleUrls: ['./feedback.component.scss']
 })
-export class FeedbackComponent {
+export class FeedbackComponent implements OnInit {
 
   resolvedGrievances: any[] = [];
 
@@ -36,6 +37,7 @@ export class FeedbackComponent {
   commentsMap: { [key: number]: string } = {};
   successMap: { [key: number]: boolean } = {};
   reopenedMap: { [key: number]: boolean } = {};
+  hasFeedbackMap: { [key: number]: boolean } = {};
   //isSubmitting: boolean = false;
 
   constructor(
@@ -47,17 +49,34 @@ export class FeedbackComponent {
     this.loadResolvedGrievances();
   }
 
-  hasFeedbackMap: { [key: number]: boolean } = {};
+  // frontend/civicpulse-frontend/src/app/modules/citizen/feedback/feedback.component.ts
 
   loadResolvedGrievances(): void {
     this.grievanceService.getMyGrievances().subscribe({
       next: (grievances) => {
-        this.resolvedGrievances = grievances.filter(g => g.status === 'RESOLVED');
+        console.log('1. All My Grievances:', grievances); // DEBUG
 
-        this.resolvedGrievances.forEach(g => {
+        // Filter purely by status first
+        const resolvedCandidates = grievances.filter(g => g.status === 'RESOLVED');
+        console.log('2. Candidates (Status=RESOLVED):', resolvedCandidates); // DEBUG
+
+        this.resolvedGrievances = []; // Reset UI
+
+        resolvedCandidates.forEach(g => {
           this.feedbackService.getFeedbackForGrievance(g.id).subscribe({
-            next: () => this.hasFeedbackMap[g.id] = true,
-            error: () => this.hasFeedbackMap[g.id] = false
+            next: (existingFeedback) => {
+              console.log(`Checking Grievance #${g.id} - Feedback Found?`, existingFeedback); // DEBUG
+
+              // If feedback is NULL or Undefined, show the card
+              if (!existingFeedback) {
+                this.resolvedGrievances.push(g);
+              }
+            },
+            error: (err) => {
+              // If API errors (404), it usually means feedback doesn't exist yet -> SHOW CARD
+              console.log(`Grievance #${g.id} has no feedback (Error 404/Empty) -> Showing Card`);
+              this.resolvedGrievances.push(g);
+            }
           });
         });
       }

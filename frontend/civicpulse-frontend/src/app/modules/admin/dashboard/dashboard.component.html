@@ -18,10 +18,10 @@
     
     <div class="stat-card card-blue">
       <div class="stat-content">
-        <div class="stat-value">12</div>
+        <div class="stat-value">{{ totalCitizens }}</div>
         <div class="stat-label">Total Citizens</div>
         <div class="trend up">
-          <mat-icon>trending_up</mat-icon> +12% this month
+          <mat-icon>trending_up</mat-icon> Active Users
         </div>
       </div>
       <div class="stat-icon">
@@ -31,10 +31,10 @@
 
     <div class="stat-card card-orange">
       <div class="stat-content">
-        <div class="stat-value">38</div>
+        <div class="stat-value">{{ totalGrievances }}</div>
         <div class="stat-label">Total Grievances</div>
         <div class="trend neutral">
-          <mat-icon>trending_flat</mat-icon> Stable
+          <mat-icon>trending_flat</mat-icon> All Time
         </div>
       </div>
       <div class="stat-icon">
@@ -44,10 +44,12 @@
 
     <div class="stat-card card-green">
       <div class="stat-content">
-        <div class="stat-value">31</div>
+        <div class="stat-value">{{ resolvedCount }}</div>
         <div class="stat-label">Issues Resolved</div>
         <div class="trend up">
-          <mat-icon>check_circle</mat-icon> 80% Success Rate
+          <mat-icon>check_circle</mat-icon> 
+          {{ totalGrievances > 0 ? (resolvedCount / totalGrievances | percent:'1.0-0') : '0%' }} 
+          Rate
         </div>
       </div>
       <div class="stat-icon">
@@ -57,7 +59,7 @@
 
     <div class="stat-card card-red">
       <div class="stat-content">
-        <div class="stat-value">15</div>
+        <div class="stat-value">{{ pendingCount }}</div>
         <div class="stat-label">Pending Action</div>
         <div class="trend down">
           <mat-icon>error_outline</mat-icon> Needs Attention
@@ -73,50 +75,29 @@
     
     <div class="content-card chart-section">
       <div class="card-header">
-        <h3><mat-icon>bar_chart</mat-icon> Department Performance</h3>
+        <h3><mat-icon>bar_chart</mat-icon> Resolution Rate by Category</h3>
         <button mat-icon-button><mat-icon>more_vert</mat-icon></button>
       </div>
       
       <div class="bar-chart-mock">
-        <div class="bar-row">
+        
+        <div class="bar-row" *ngFor="let dept of departmentStats">
           <div class="bar-label">
-            <span>Sanitation</span>
-            <span class="percentage">80%</span>
+            <span>{{ dept.name }}</span>
+            <span class="percentage">{{ dept.percentage }}%</span>
           </div>
           <div class="bar-track">
-            <div class="bar-fill blue-fill" style="width: 80%"></div>
+            <div class="bar-fill" 
+                 [ngClass]="dept.colorClass" 
+                 [style.width.%]="dept.percentage">
+            </div>
           </div>
         </div>
 
-        <div class="bar-row">
-          <div class="bar-label">
-            <span>Roads & Transport</span>
-            <span class="percentage">45%</span>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill orange-fill" style="width: 45%"></div>
-          </div>
+        <div *ngIf="departmentStats.length === 0" style="text-align: center; padding: 20px; color: #888;">
+          <p>No data available for charts.</p>
         </div>
 
-        <div class="bar-row">
-          <div class="bar-label">
-            <span>Water Supply</span>
-            <span class="percentage">65%</span>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill green-fill" style="width: 65%"></div>
-          </div>
-        </div>
-
-        <div class="bar-row">
-          <div class="bar-label">
-            <span>Electricity</span>
-            <span class="percentage">92%</span>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill purple-fill" style="width: 92%"></div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -163,4 +144,58 @@
     </div>
 
   </div>
+  <div class="charts-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px;">
+    
+    <div class="chart-card" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3>Complaints by Category</h3>
+
+        <div style="height: 300px;">
+            <ngx-charts-pie-chart
+                [results]="pieData"
+                [scheme]="colorScheme"
+                [legend]="true"
+                [labels]="true"
+                [doughnut]="true">
+            </ngx-charts-pie-chart>
+        </div>
+    </div>
+
+    <div class="chart-card" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3>Avg Resolution Time (Hours)</h3>
+
+        <div style="height: 300px;">
+            <ngx-charts-bar-vertical
+                [results]="barData"
+                [scheme]="colorScheme"
+                [legend]="true"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                xAxisLabel="Category"
+                yAxisLabel="Hours">
+            </ngx-charts-bar-vertical>
+        </div>
+    </div>
+
+    <div class="chart-card" style="grid-column: 1 / -1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3>Complaint-Prone Zones (Heat Map)</h3>
+        
+        <div style="height: 300px;">
+            <ngx-charts-heat-map
+                [results]="heatMapData"
+                [scheme]="colorScheme"
+                [legend]="true" 
+                legendTitle="Complaint Count"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                xAxisLabel="Location"
+                yAxisLabel="Intensity">
+            </ngx-charts-heat-map>
+        </div>
+    </div>
+
+</div>
 </div>
