@@ -1,6 +1,6 @@
 /* src/app/shared/navbar/navbar.component.css */
 .navbar {
-  height: 70px; /* Slightly taller for elegance */
+  height: 70px;
   background: linear-gradient(135deg, #003366 0%, #004080 100%);
   color: white;
   display: flex;
@@ -13,10 +13,9 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  box-sizing: border-box; /* Prevents padding from causing overflow */
+  box-sizing: border-box; 
 }
 
-/* Left Side */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -30,7 +29,7 @@
   cursor: pointer;
   border-radius: 8px;
   padding: 8px;
-  display: none; /* Desktop hidden */
+  display: none; 
   transition: background 0.2s;
 }
 .menu-btn:hover { background: rgba(255, 255, 255, 0.2); }
@@ -51,7 +50,6 @@
 }
 .logo-icon { color: #FF9933; font-size: 28px; }
 
-/* Right Side (User Profile) */
 .navbar-right {
   display: flex;
   align-items: center;
@@ -106,14 +104,13 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  flex-shrink: 0; /* Prevents button from being squished */
+  flex-shrink: 0;
 }
 .logout-btn:hover {
   background: #ff4d4d;
   transform: rotate(90deg);
 }
 
-/* Notification Icon */
 .icon-btn {
   position: relative;
   cursor: pointer;
@@ -133,10 +130,9 @@
   border: 2px solid #003366;
 }
 
-/* Responsive Fixes */
 @media (max-width: 768px) {
   .menu-btn { display: block; }
-  .user-info { display: none; } /* Hide text on mobile to save space */
+  .user-info { display: none; } 
   .brand-text { font-size: 1.2rem; }
   .navbar { padding: 0 16px; }
   .user-profile { background: transparent; border: none; padding: 0; }

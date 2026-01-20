@@ -65,7 +65,7 @@ public class GrievanceService {
         }
 
         Grievance grievance = new Grievance();
-        grievance.setUser(user); // ✅ SINGLE SOURCE OF TRUTH
+        grievance.setUser(user); 
         grievance.setCategory(category);
         grievance.setTitle(grievanceDTO.getTitle());
         grievance.setDescription(grievanceDTO.getDescription());
@@ -92,7 +92,7 @@ public class GrievanceService {
     private GrievanceDTO convertToDTO(Grievance grievance) {
         GrievanceDTO dto = new GrievanceDTO();
         dto.setId(grievance.getId());
-        dto.setUserId(grievance.getUser().getId()); // frontend still uses this
+        dto.setUserId(grievance.getUser().getId()); 
         dto.setCategoryId(
                 grievance.getCategory() != null
                         ? grievance.getCategory().getCategoryId()

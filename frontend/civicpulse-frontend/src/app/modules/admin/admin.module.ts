@@ -20,7 +20,7 @@ import { AssignOfficerComponent } from './assign-officer/assign-officer.componen
 import { ResolutionReviewComponent } from './resolution-review/resolution-review.component';
 
 @NgModule({
-  declarations: [], // Remove all component declarations
+  declarations: [], 
   imports: [
     CommonModule,
     RouterModule,
@@ -37,7 +37,7 @@ import { ResolutionReviewComponent } from './resolution-review/resolution-review
     MatChipsModule,
     MatSpinner,
     AdminRoutingModule,
-    DashboardComponent, // Import standalone components
+    DashboardComponent, 
     AssignOfficerComponent,
     ResolutionReviewComponent
   ]

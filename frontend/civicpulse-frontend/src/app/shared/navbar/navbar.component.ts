@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  // NEW: Emits event to parent when menu button is clicked
   @Output() toggleSidebar = new EventEmitter<void>();
 
   userName: string = 'User';
@@ -22,7 +21,6 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // UPDATED: Dynamic subscription
     this.authService.currentUser.subscribe(user => {
         if (user) {
             this.userName = user.name || 'User';

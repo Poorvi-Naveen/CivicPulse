@@ -41,20 +41,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) { 
-
-        // 1. Check if user exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Error: Email is already in use!");
         }
 
-        // 2. Validate Role Input
         String roleName = request.getRole();
         if (roleName == null || roleName.isEmpty()) {
             roleName = "CITIZEN"; 
         }
         roleName = roleName.toUpperCase();
-
-        // 3. Find Role or Create it if missing
         String finalRoleName = roleName;
         Role role = roleRepository.findByName(finalRoleName)
                 .orElseGet(() -> {
@@ -62,7 +57,6 @@ public class AuthController {
                     return roleRepository.save(newRole);
                 });
 
-        // 4. Create User
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
@@ -79,20 +73,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            // 1. Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getEmail(), loginRequest.getPassword()));
-
-            // 2. Generate Token
             String token = jwtUtil.generateToken(authentication.getName());
-
-            // 3. Get User Details 
             User user = userRepository.findByEmail(loginRequest.getEmail())
                     .orElseThrow(() -> new RuntimeException("User not found"));
             String role = user.getRoles().isEmpty() ? "CITIZEN" : user.getRoles().iterator().next().getName();
-
-            // 4. Create the JSON Response
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
             response.put("role", role); 

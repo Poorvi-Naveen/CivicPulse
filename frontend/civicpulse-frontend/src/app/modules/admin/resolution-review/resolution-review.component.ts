@@ -4,8 +4,8 @@ import { GrievanceService } from '../../../core/services/grievance.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button'; // Added for styling
-import { MatIconModule } from '@angular/material/icon'; // Added for styling
+import { MatButtonModule } from '@angular/material/button'; 
+import { MatIconModule } from '@angular/material/icon'; 
 import { ResolutionReviewDialogComponent } from '../resolution-review-dialog/resolution-review-dialog.component';
 
 
@@ -14,7 +14,6 @@ import { ResolutionReviewDialogComponent } from '../resolution-review-dialog/res
   standalone: true,
   templateUrl: './resolution-review.component.html',
   styleUrls: ['./resolution-review.component.scss'],
-  // Added MatButtonModule and MatIconModule for the new UI elements
   imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, MatDialogModule, MatSnackBarModule]
 })
 export class ResolutionReviewComponent implements OnInit {

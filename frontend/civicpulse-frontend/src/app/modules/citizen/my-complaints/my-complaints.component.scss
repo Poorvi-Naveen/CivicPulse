@@ -1,5 +1,4 @@
 // frontend/civicpulse-frontend/src/app/modules/citizen/my-complaints/my-complaints.component.scss
-// Variables
 $primary-dark: #003366;
 $primary-blue: #00509e;
 $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent 70%), 
@@ -12,7 +11,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   padding: 30px;
 }
 
-/* Header */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -35,7 +33,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* Filters */
 .filter-toolbar {
   background: white;
   padding: 15px 20px;
@@ -53,14 +50,12 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* Grid */
 .complaints-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 24px;
 }
 
-/* Civic Card Styling */
 .civic-card {
   border-radius: 10px;
   overflow: hidden;
@@ -139,7 +134,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* Custom Chips */
 .chip {
   padding: 4px 10px;
   border-radius: 12px;
@@ -167,7 +161,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   .track-btn { color: #666; }
 }
 
-/* Empty State */
 .empty-state {
   text-align: center;
   padding: 60px;

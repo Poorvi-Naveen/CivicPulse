@@ -21,7 +21,7 @@ import { SubmitGrievanceComponent } from './submit-grievance/submit-grievance.co
 import { MyComplaintsComponent } from './my-complaints/my-complaints.component';
 
 @NgModule({
-  declarations: [], // Remove all component declarations
+  declarations: [], 
   imports: [
     CommonModule,
     RouterModule,
@@ -39,7 +39,7 @@ import { MyComplaintsComponent } from './my-complaints/my-complaints.component';
     MatButtonToggleModule,
     MatSpinner,
     CitizenRoutingModule,
-    DashboardComponent, // Import standalone components
+    DashboardComponent, 
     SubmitGrievanceComponent,
     MyComplaintsComponent
   ]

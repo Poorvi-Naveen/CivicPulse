@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "CivicPulse Backend is Running 🚀";
+        return "CivicPulse Backend is Running";
     }
 }

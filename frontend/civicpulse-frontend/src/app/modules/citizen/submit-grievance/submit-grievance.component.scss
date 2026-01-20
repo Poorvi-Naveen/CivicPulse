@@ -23,7 +23,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   position: relative;
 }
 
-/* Theme Stripe */
 .brand-stripe {
   height: 6px;
   background: linear-gradient(to right, #FF9933 33.3%, white 33.3%, white 66.6%, #138808 66.6%);
@@ -46,7 +45,7 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   p {
     color: #666;
     margin-top: 5px;
-    margin-left: 42px; /* align with text of h1 */
+    margin-left: 42px; 
   }
 }
 
@@ -70,7 +69,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   margin: 30px 0;
 }
 
-/* Input Styling */
 .input-group {
   margin-bottom: 20px;
 
@@ -114,7 +112,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
     width: 100%;
   }
   
-  /* Fix text area alignment with icon */
   &.text-area-wrapper {
     align-items: flex-start;
     .input-icon { margin-top: 12px; }
@@ -134,7 +131,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   margin-left: 44px;
 }
 
-/* Location Specifics */
 .coords-row {
   display: flex;
   gap: 15px;
@@ -160,7 +156,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   }
 }
 
-/* Image Upload */
 .image-upload-box {
   border: 2px dashed #ccddee;
   border-radius: 8px;
@@ -214,8 +209,6 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
     right: -10px;
   }
 }
-
-/* Actions */
 .form-actions {
   margin-top: 40px;
   display: flex;

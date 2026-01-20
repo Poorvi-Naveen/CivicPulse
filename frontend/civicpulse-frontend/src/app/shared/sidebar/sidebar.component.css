@@ -2,21 +2,18 @@
 .sidebar {
   width: 260px;
   background-color: #ffffff;
-  height: calc(100vh - 70px); /* Full height minus Navbar */
+  height: calc(100vh - 70px); 
   position: fixed;
-  top: 70px; /* Below Navbar */
+  top: 70px; 
   left: 0;
-  /* Styling */
   box-shadow: 2px 0 8px rgba(0,0,0,0.05);
   border-right: 1px solid #eaeaea;
-  /* Flex Layout for Links + Footer */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding-top: 20px;
-  /* Layering */
-  z-index: 999; /* Below Navbar (1000), Above Overlay (950) */
-  /* Transition for Mobile Slide-in */
+  z-index: 999; 
+  
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .sidebar.closed {
@@ -24,7 +21,7 @@
 }
 .nav-links {
   list-style: none;
-  padding: 0 12px; /* Add side padding for floating effect */
+  padding: 0 12px; 
   margin: 0;
 }
 
@@ -39,7 +36,7 @@
   color: #666;
   text-decoration: none;
   font-weight: 500;
-  border-radius: 12px; /* Rounded links */
+  border-radius: 12px; 
   transition: all 0.2s ease;
   position: relative;
 }
@@ -51,7 +48,6 @@
   transition: color 0.2s;
 }
 
-/* Hover State */
 .nav-links a:hover {
   background-color: #f0f7ff;
   color: #003366;
@@ -59,7 +55,6 @@
 }
 .nav-links a:hover i { color: #003366; }
 
-/* Active State */
 .nav-links a.active {
   background: linear-gradient(90deg, #e6f0fa 0%, #ffffff 100%);
   color: #003366;
@@ -74,23 +69,20 @@
   transform: translateY(-50%);
   height: 20px;
   width: 4px;
-  background-color: #FF9933; /* Orange accent */
+  background-color: #FF9933; 
   border-radius: 0 4px 4px 0;
 }
 .nav-links a.active i { color: #003366; }
 
-/* Mobile Slide-In Logic */
 @media (max-width: 768px) {
   .sidebar {
-    height: 100vh; /* Full screen height on mobile */
-    top: 0;        /* Cover navbar area too if desired, or keep 70px if you want navbar visible */
-    z-index: 1100; /* On mobile, sit ABOVE navbar */
+    height: 100vh; 
+    top: 0;
+    z-index: 1100; 
     
-    /* Default Hidden on Mobile */
     transform: translateX(-100%);
   }
 
-  /* When open on mobile, slide in */
   .sidebar.open {
     transform: translateX(0);
   }

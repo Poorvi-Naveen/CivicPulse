@@ -12,8 +12,7 @@ import { AuthService } from '../../modules/auth/auth.service';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  
-  // NEW: Inputs for responsive control
+
   @Input() isOpen = false; 
   @Output() closeSidebar = new EventEmitter<void>();
 
@@ -23,7 +22,6 @@ export class SidebarComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    // UPDATED: Subscribe to user changes instantly
     this.authService.currentUser.subscribe(user => {
         this.role = user?.role || 'CITIZEN';
         this.setMenu();
@@ -43,15 +41,15 @@ export class SidebarComponent implements OnInit {
       this.menuItems = [
         { label: 'Dashboard', link: '/officer/dashboard', icon: 'dashboard' },
         { label: 'Assigned Tasks', link: '/officer/assigned-grievances', icon: 'assignment_ind' },
-        { label: 'Update Status', link: '/officer/update-status', icon: 'edit_note' },
-        { label: 'History', link: '/officer/resolved-history', icon: 'history' }
+        //{ label: 'Update Status', link: '/officer/update-status', icon: 'edit_note' },
+        //{ label: 'History', link: '/officer/resolved-history', icon: 'history' }
       ];
     } 
     else if (this.role === 'ADMIN') {
       this.menuItems = [
         { label: 'Overview', link: '/admin/dashboard', icon: 'analytics' },
         { label: 'All Grievances', link: '/admin/all-grievances', icon: 'view_list' },
-        { label: 'Manage Users', link: '/admin/users', icon: 'people' },
+        //{ label: 'Manage Users', link: '/admin/users', icon: 'people' },
         { label: 'Assign Officers', link: '/admin/assign-officer', icon: 'badge' },
         { label: 'Resolution Reviews', link: '/admin/resolution-review', icon: 'gavel' },
         { label: 'Reports', link: '/admin/reports', icon: 'summarize' }
@@ -59,7 +57,6 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  // NEW: Close sidebar when a link is clicked (Mobile UX)
   onLinkClick() {
     if (window.innerWidth < 768) {
       this.closeSidebar.emit();

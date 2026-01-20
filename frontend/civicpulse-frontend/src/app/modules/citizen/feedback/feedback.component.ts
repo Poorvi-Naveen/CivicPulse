@@ -49,31 +49,24 @@ export class FeedbackComponent implements OnInit {
     this.loadResolvedGrievances();
   }
 
-  // frontend/civicpulse-frontend/src/app/modules/citizen/feedback/feedback.component.ts
-
   loadResolvedGrievances(): void {
     this.grievanceService.getMyGrievances().subscribe({
       next: (grievances) => {
-        console.log('1. All My Grievances:', grievances); // DEBUG
-
-        // Filter purely by status first
+        console.log('1. All My Grievances:', grievances); 
         const resolvedCandidates = grievances.filter(g => g.status === 'RESOLVED');
-        console.log('2. Candidates (Status=RESOLVED):', resolvedCandidates); // DEBUG
+        console.log('2. Candidates (Status=RESOLVED):', resolvedCandidates); 
 
-        this.resolvedGrievances = []; // Reset UI
+        this.resolvedGrievances = [];
 
         resolvedCandidates.forEach(g => {
           this.feedbackService.getFeedbackForGrievance(g.id).subscribe({
             next: (existingFeedback) => {
-              console.log(`Checking Grievance #${g.id} - Feedback Found?`, existingFeedback); // DEBUG
-
-              // If feedback is NULL or Undefined, show the card
+              console.log(`Checking Grievance #${g.id} - Feedback Found?`, existingFeedback);
               if (!existingFeedback) {
                 this.resolvedGrievances.push(g);
               }
             },
             error: (err) => {
-              // If API errors (404), it usually means feedback doesn't exist yet -> SHOW CARD
               console.log(`Grievance #${g.id} has no feedback (Error 404/Empty) -> Showing Card`);
               this.resolvedGrievances.push(g);
             }

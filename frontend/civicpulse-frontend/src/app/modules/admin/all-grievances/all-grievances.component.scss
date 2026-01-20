@@ -70,9 +70,9 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
   height: 5px;
   width: 100%;
   
-  &.pending { background: #ff9800; } /* Orange */
-  &.in_progress { background: #2e7d32; } /* Green */
-  &.rejected { background: #d32f2f; } /* Red */
+  &.pending { background: #ff9800; } 
+  &.in_progress { background: #2e7d32; } 
+  &.rejected { background: #d32f2f; } 
 }
 
 .card-content-wrapper {
@@ -164,7 +164,7 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
     flex-grow: 1;
     font-size: 0.9rem;
     
-    ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; } /* Compact input */
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper { display: none; } 
   }
 
   .btn-reject {
@@ -222,7 +222,7 @@ $bg-gradient: radial-gradient(at top left, rgba(200, 220, 255, 0.3), transparent
 }
 
 .reopen-badge, .reopen-tag {
-  background-color: #ff9800; // Orange
+  background-color: #ff9800; 
   color: white;
   padding: 2px 8px;
   border-radius: 12px;

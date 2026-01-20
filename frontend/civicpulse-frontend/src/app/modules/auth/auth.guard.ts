@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isLoggedIn()) {
       const userRole = this.authService.getRole();
       
-      // Check if user is trying to access the correct dashboard
       const currentPath = window.location.pathname;
       
       if (userRole) {

@@ -3,13 +3,12 @@
 
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif; /* Modern, clean font */
-  background-color: #f0f2f5; /* Softer light grey */
+  font-family: 'Poppins', sans-serif; 
+  background-color: #f0f2f5;
   color: #333;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -24,7 +23,6 @@ body {
   background: #003366;
 }
 
-/* Modern Button Reset */
 button {
   font-family: 'Poppins', sans-serif;
 }
@@ -37,7 +35,7 @@ button {
 mat-card {
   width: 350px;
   padding: 20px;
-  border-top: 4px solid #1a73e8; /* Blue Primary */
+  border-top: 4px solid #1a73e8; 
 }
 
 button {
@@ -49,9 +47,8 @@ h2 {
   margin-bottom: 10px;
 }
 
-/* Role Colors: Accent + Success */
 mat-select {
-  --mat-option-selected-state-label-text-color: #ff8c00; /* Orange Accent */
+  --mat-option-selected-state-label-text-color: #ff8c00; 
 }
 
 .full {

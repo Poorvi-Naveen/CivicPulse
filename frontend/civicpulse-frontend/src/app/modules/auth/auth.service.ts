@@ -27,7 +27,6 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, credentials)
       .pipe(map(response => {
-        // Ensure response contains token, role, and name
         const user = {
             id: response.id,
             token: response.token,

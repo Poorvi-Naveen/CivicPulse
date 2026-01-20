@@ -1,13 +1,12 @@
 /* frontend/civicpulse-frontend/src/app/modules/admin/dashboard/dashboard.component.css */
-/* General Layout */
+
 .dashboard-container {
   padding: 30px;
-  background-color: #f4f7fa; /* Very light grey-blue */
+  background-color: #f4f7fa; 
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
 }
 
-/* Headers */
 h1 {
   color: #003366;
   margin-bottom: 5px;
@@ -16,7 +15,6 @@ p {
   color: #666;
 }
 
-/* Grids */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -31,11 +29,10 @@ p {
 }
 .content-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* 2/3rds and 1/3rd split */
+  grid-template-columns: 2fr 1fr;
   gap: 20px;
 }
 
-/* Cards */
 .stat-card, .table-card, .recent-list-card, .chart-card, .action-card, .stat-card {
   background: white;
   padding: 20px;
@@ -49,12 +46,10 @@ p {
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
-/* Stat Card Colors (Borders) */
 .stat-card.blue { border-left: 5px solid #00509e; }
 .stat-card.green { border-left: 5px solid #138808; }
 .stat-card.orange { border-left: 5px solid #FF9933; }
 
-/* Icon Styling inside Cards */
 .icon-circle {
   width: 50px;
   height: 50px;
@@ -82,10 +77,9 @@ p {
   font-size: 14px;
 }
 
-/* Citizen Action Card */
 .action-card {
   text-align: center;
-  border: 2px dashed #00509e; /* Dashed border to invite action */
+  border: 2px dashed #00509e; 
   background: #fdfdfd;
   cursor: pointer;
   display: flex;
@@ -100,7 +94,6 @@ p {
 }
 .action-card h2 { color: #00509e; margin: 0; }
 
-/* Recent List / Tables */
 .list-item {
   display: flex;
   align-items: center;
@@ -129,7 +122,6 @@ p {
 .badge.pending { background: #fff3e0; color: #e65100; }
 .badge.resolved { background: #e8f5e9; color: #2e7d32; }
 
-/* Officer Table */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -155,7 +147,6 @@ td {
   cursor: pointer;
 }
 
-/* Admin Bar Chart Mock */
 .bar-row {
   display: flex;
   align-items: center;
@@ -175,7 +166,6 @@ td {
   border-radius: 5px;
 }
 
-/* Admin Buttons */
 .admin-btn {
   width: 100%;
   padding: 12px;
